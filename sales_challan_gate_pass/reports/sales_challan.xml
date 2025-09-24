@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_sales_challan" model="ir.actions.report">
+       <field name="name">Sale Challan</field>
+       <field name="model">sale.order</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">sales_challan_gate_pass.sales_challan_report</field>
+       <field name="report_file">sales_challan_gate_pass.sales_challan_report</field>
+       <field name="print_report_name">'Sales Challan - %s' % (object.name)</field>
+       <field name="binding_model_id" ref="sale.model_sale_order"/>
+       <field name="binding_type">report</field>
+   </record>
+
+   <template id="sales_challan_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sales_challan_gate_pass.external_layout_new">
+                    <div class="page border">
+                        <!-- <t t-set="print_date" t-value="o._get_current_date_time()"/> -->
+                        <div class="row border-bottom">
+                            <div class="col 6" style="margin-left:3px;">
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Party Name</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Address</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.contact_address_complete"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>PAN</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.vat"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Contact No.</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-out="o.partner_id.phone"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Sales Representative.</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.user_id.name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col 6" style="margin-left:80px; text-align:left;">
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>DOC No.</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>DOC Date</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.date_order"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>Destination</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.destination_location"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>Contact No.</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.partner_id.mobile"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>Delivery Date</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.commitment_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row border-bottom" style="margin-left:3px;">
+                            <div class='col-3'>
+                                <strong>Mode of Payment</strong>
+                            </div>
+                            <div class='col-8'>
+                                <span t-if="o.payment_method" t-field="o.payment_method.name"/>
+                            </div>
+                        </div>
+                        <table class="table" name="sale_line_table">
+                            <thead>
+                                <tr>
+                                    <th name="th_sno" style="width: 5%" class="text-center"><strong style="margin-left:3px;">S.No.</strong></th>
+                                    <th name="th_hs" class="text-center"><strong>H.S. Code</strong></th>
+                                    <th name="th_description" style="width: 45%" class="text-start"><strong>PARTICULARS</strong></th>
+                                    <th name="th_unit" class="text-start"><strong>Unit</strong></th>
+                                    <th name="th_quantity" class="text-center"><strong>Quantity</strong></th>
+                                    <th name="th_rate" class="text-center"><strong>Rate/Unit</strong></th>
+                                    <th name="th_amount" class="text-center"><strong>Value</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_line_tbody">
+                                <t t-set="current_subtotal" t-value="0"/>
+                                <t t-set="current_total" t-value="0"/>
+                                <t t-set="quantity_total" t-value="0"/>
+                                <t t-set="amount_total" t-value="0"/>
+                                <t t-set="symbol_number" t-value="0"/>
+                                <t t-set="lines" t-value="o.order_line.sorted(key=lambda l: (-l.sequence, -l.id), reverse=True)"/>
+
+                                <t t-foreach="lines" t-as="line">
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                                    <t t-set="current_total" t-value="current_total + line.price_total"/>
+                                    <t t-set="quantity_total" t-value="quantity_total + line.product_qty"/>
+                                    <t t-set="amount_line" t-value="line.price_unit * line.product_qty"/>
+                                    <t t-set="amount_total" t-value="amount_total + amount_line"/>
+
+                                    <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                        <t t-if="not line.display_type">
+                                            <t t-set="symbol_number" t-value="symbol_number + 1"/>
+                                            <td name="td_sno" class="text-center">
+                                                <span class="text-nowrap" t-out="symbol_number">1</span>
+                                            </td>
+                                            <td name="td_hs"><span t-field="line.product_id.hs_code"></span></td>
+                                            <td name="td_description"><span t-field="line.product_id.name" t-options="{'widget': 'text'}">Bacon Burger</span></td>
+                                            <td name="td_unit" class="text-center">
+                                                <span t-field="line.product_uom">units</span>
+                                            </td>
+                                            <td name="td_quantity" class="text-center">
+                                                <span t-field="line.product_qty">3.00</span>
+                                            </td>
+                                            <td name="td_rate" class="text-center">
+                                                <span class="text-nowrap" t-field="line.price_unit">9.00</span>
+                                            </td>
+                                            <td name="td_amount" class="text-center">
+                                                <span class="text-nowrap" t-out="amount_line">27.00</span>
+                                            </td>
+                                        </t>
+                                        <!-- <t t-elif="line.display_type == 'line_section'">
+                                            <td colspan="99">
+                                                <span t-field="line.name" t-options="{'widget': 'text'}">A section title</span>
+                                            </td>
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </t>
+                                        <t t-elif="line.display_type == 'line_note'">
+                                            <td colspan="99">
+                                                <span t-field="line.name" t-options="{'widget': 'text'}">A note, whose content usually applies to the section or product above.</span>
+                                            </td>
+                                        </t> -->
+                                    </tr>
+                                </t>
+                                <tr class="border-top">
+                                    <td />
+                                    <td />
+                                    <td />
+                                    <td />
+                                    <td class="text-end"> <strong t-out="quantity_total"/> </td>
+                                    <td class="text-end"> <strong>Sub Total</strong> </td>
+                                    <td class="text-center"> <strong t-out="amount_total"/> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class='row border-bottom' style="margin-left:3px;">
+                            <div class='col-10'>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Transport Name</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.fleet_id.model_id.display_name"/>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Transpoter C.N.</span>
+                                            </div>
+                                            <div class='col-6'>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Vehicle No.</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <t t-if="o.fleet_id.zonal_code and o.fleet_id.lot_number and o.fleet_id.symbol and o.fleet_id.vehicle_number">
+                                                    <t t-set="vehicle_number" t-value="o.fleet_id.zonal_code+' '+o.fleet_id.lot_number+' '+o.fleet_id.symbol+' '+o.fleet_id.vehicle_number"/>
+                                                    <span t-out='vehicle_number'/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="o.fleet_id.license_plate"/>
+                                                </t>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Driver Name</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.fleet_id.driver_id.name"/>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Driver No.</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.fleet_id.driver_id.phone"/>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Driver Lic. No.</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.fleet_id.driver_id.license_number"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class='col-6'>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Freight Amount</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.freight_amount"/>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>Advance Amount</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.advance_amount"/>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <span>MLS No.</span>
+                                            </div>
+                                            <div class='col-6'>
+                                                <span t-field="o.mls_number"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-3'/>
+                        </div>
+
+                        <div id="prepare_info" class="row mt-5">
+                            <div class='col mt-5' style="padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                </div>
+                            </div>
+                            <div class='col mt-5' style="padding-left: 15px; padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                </div>
+                            </div>
+                            <div class='col mt-5' style="padding-left: 15px;">
+                                <div class='text-center p-2'>
+                                <strong>For: Brij Himalayan Spring Pvt. Ltd.</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="prepare_info" class="row">
+                            <div class='col' style="padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong>Prepared By</strong>
+                                </div>
+                            </div>
+                            <div class='col' style="padding-left: 15px; padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong>Receiver's signature and Seal </strong>
+                                </div>
+                            </div>
+                            <div class='col' style="padding-left: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong>Authorized By</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span>E. &amp; O.E</span>
+                </t>
+            </t>
+        </t>
+   </template>
+
+
+    <template id="purchase_tax_totals">
+        <t t-set="same_tax_base" t-value="tax_totals['same_tax_base']"/>
+        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+            <tr class="o_subtotal">
+                <td>
+                    <span>Basic Total</span>
+                </td>
+                <td class="text-end">
+                    <span t-att-class="oe_subtotal_footer_separator"
+                            t-out="subtotal['base_amount_currency']"
+                            t-options='{"widget": "monetary", "display_currency": currency}'
+                    >27.00</span>
+                </td>
+            </tr>
+
+            <t t-foreach="subtotal['tax_groups']" t-as="tax_group">
+                <tr class="o_taxes">
+                    <t t-if="same_tax_base or tax_group['display_base_amount_currency'] is None">
+                        <td>
+                            <span class="text-nowrap" t-out="tax_group['group_name']">Tax 15%</span>
+                        </td>
+                        <td class="text-end o_price_total">
+                            <span class="text-nowrap"
+                                    t-out="tax_group['tax_amount_currency']"
+                                    t-options='{"widget": "monetary", "display_currency": currency}'
+                            >1.05</span>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td>
+                            <span t-out="tax_group['group_name']">Tax 15%</span>
+                            <span> on </span>
+                            <span class="text-nowrap"
+                                    t-out="tax_group['display_base_amount_currency']"
+                                    t-options='{"widget": "monetary", "display_currency": currency}'
+                            >27.00</span>
+                        </td>
+                        <td class="text-end o_price_total">
+                            <span class="text-nowrap"
+                                    t-out="tax_group['tax_amount_currency']"
+                                    t-options='{"widget": "monetary", "display_currency": currency}'
+                            >4.05</span>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </t>
+
+        <tr t-if="'cash_rounding_base_amount_currency' in tax_totals">
+            <td>Rounding</td>
+            <td class="text-end">
+                <span t-out="tax_totals['cash_rounding_base_amount_currency']"
+                        t-options='{"widget": "monetary", "display_currency": currency}'
+                >0</span>
+            </td>
+        </tr>
+        
+        <!--Total amount with all taxes-->
+        <tr class="o_total">
+            <td><strong>TOTAL AMOUNT</strong></td>
+            <td class="text-end">
+                <strong t-out="tax_totals['total_amount_currency']"
+                        t-options='{"widget": "monetary", "display_currency": currency}'
+                >31.05</strong>
+            </td>
+        </tr>
+    </template>
+
+    <template id="external_layout_new">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="sales_challan_gate_pass.external_layout_standard_new"><t t-out="0"/></t>
+
+    </template>
+
+    <template id="external_layout_standard_new">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class='row'>
+                    <div class='col-6' style="border-right: 2px solid;">
+                        <div class='row mt-5'>
+                            <div class='col-4'/>
+                            <div class='col-10 mt-3'>
+                                <div class='row'>
+                                    <span style="font-weight: bolder; font-size:18px;" t-field="company.name"/>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>
+                                        <strong>PAN</strong>
+                                    </div>
+                                    <div class='col-1'>
+                                        <strong>:</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="company.vat"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-6' style='margin-left: 8px;'>
+                        <!-- <div class='row'>
+                            <div class='col-2'>
+                                <strong>Branch</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+
+                            </div>
+                        </div> -->
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Address</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <t t-set="address" t-value="company.street +' '+ company.city +' Nepal'"/>
+                                <strong t-out='address'/>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Phone</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <t t-set="phone" t-value="company.phone+', '+ company.mobile"/>
+                                <strong t-out='phone'/>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Email</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <strong t-field='company.email'/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class='mt-4 text-center'><h3>Sales Challan</h3></div>
+        </div>
+        <t t-set="layout_background_url"
+           t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
+                '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''" />
+        <div t-attf-class="article o_report_layout_standard o_table_standard o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+             t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!-- <t t-call="web.address_layout"/> -->
+            <!-- <h2 t-out="layout_document_title"/> -->
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+            <div class="border-top pt-2">
+                <!-- <div class="flex-grow-1 text-start me-2" t-field="company.report_footer"/> -->
+                <div>
+                    <div t-if="report_type == 'pdf' and display_name_in_footer" t-out="o.name">(document name)</div>
+                    <div t-if="report_type == 'pdf'">
+                        <t t-set='current_time' t-value='o._get_current_date_time()'/>
+                        <div class='row'>
+                            <div class='col text-center'>
+                                Printed on <span t-out='current_time'/>
+                            </div>
+                            <div class='col text-center'>
+                                Page <span class="page"/> of <span class="topage"/>
+                            </div>
+                            <div class='col text-center'>
+                                Printed by <span t-field='o.env.user.name'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

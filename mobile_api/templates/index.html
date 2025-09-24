@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Sale Person Report</title>
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      rel="stylesheet"
+    />
+    <link
+      crossorigin=""
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        width: 100%;
+        height: 100vh;
+        background-color: #f0f0f0;
+        position: relative;
+      }
+
+      #side-box {
+        background: #714b67;
+        width: 350px;
+        height: max-content;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+      }
+
+      #right-box {
+        background: #714b67;
+        width: 200px;
+        height: max-content;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+      }
+
+      .device-box {
+        width: 100%;
+        min-height: 30px;
+        max-height: max-content;
+        color: white;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .report-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        color: white;
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+
+      .device-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: #545151;
+        height: 100%;
+        min-height: 30px;
+      }
+
+      .device-box:hover {
+        background: #017e84;
+      }
+
+      .box-hover {
+        background: #017e84;
+      }
+
+      .report-row:hover {
+        background: #017e84;
+        color: white;
+      }
+
+      #result-box {
+        height: auto;
+        max-height: 80vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+
+      #report-result-box {
+        height: auto;
+        max-height: 80vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+
+      #result-box {
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+        scrollbar-width: none;
+        /* Firefox */
+      }
+
+      #report-result-box {
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+        scrollbar-width: none;
+        /* Firefox */
+      }
+
+      #result-box::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+      }
+
+      #report-result-box::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+      }
+
+      .leaflet-div-icon {
+        background: none !important;
+        border: none !important;
+      }
+
+      #speed-control {
+        position: absolute;
+        background: #d7d6d6;
+        width: 250px;
+        height: 50px;
+        top: 10px;
+        bottom: 10px;
+        right: 220px;
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .center-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .select2-container--default .select2-selection--single {
+        height: 46px !important;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 6px;
+      }
+
+      .select2-container--default
+        .select2-selection--single
+        .select2-selection__arrow
+        b {
+        top: 85% !important;
+      }
+
+      .select2-container--default
+        .select2-selection--single
+        .select2-selection__rendered {
+        line-height: 26px !important;
+      }
+
+      .select2-container--default .select2-selection--single {
+        border: 1px solid #ccc !important;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+        transition: border-color 0.15s ease-in-out 0s,
+          box-shadow 0.15s ease-in-out 0s;
+      }
+
+      .select2-selection__arrow {
+        display: none;
+      }
+
+      .select2-search--dropdown .select2-search__field {
+        width: 466px;
+        position: relative;
+        left: 7px;
+        height: 43px;
+      }
+
+      .select2-dropdown {
+        border: none;
+      }
+
+      .btn-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        border: 1px solid #0aa2c0;
+      }
+
+      .btn-center:hover {
+        border: 1px solid #3391a2;
+        background: #0aa2c0;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script
+      crossorigin="anonymous"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script
+      crossorigin="anonymous"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+    ></script>
+    <script
+      crossorigin=""
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+      let map;
+      let devices = [];
+      let reports = [];
+      const device_result_box = $("#result-box");
+      const right_box = $("#right-box");
+      const speed_control_box = $(" #speed-control");
+
+      const personIcon =
+        '<svg fill="blue" width="50" height="50" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><path d="M214.7185,136.9126,175.50268,86.49072a12.06144,12.06144,0,0,0-.9873-1.11816A31.79122,31.79122,0,0,0,151.88745,76h-.02783a40,40,0,1,0-47.94434,0h-.02783a31.79121,31.79121,0,0,0-22.62793,9.37256,12.063,12.063,0,0,0-.98731,1.11816L41.05639,136.9126a24,24,0,0,0,33.919,33.91845l3.80371-2.958L62.88647,218.06689a24.001,24.001,0,0,0,43.47363,20.27149l21.52735-33.88184,21.52734,33.88184a24.001,24.001,0,0,0,43.47363-20.27149l-15.89257-50.19384,3.80371,2.958A24,24,0,0,0,214.7185,136.9126ZM127.88745,28a16,16,0,1,1-16,16A16.01833,16.01833,0,0,1,127.88745,28Zm68.13672,124.26807-34.7461-27.02539a12.00006,12.00006,0,0,0-18.80761,13.09423l27.73339,87.59424a12.02852,12.02852,0,0,0,.56446,1.44922,11.92762,11.92762,0,0,0-.74805-1.36426L138.01635,175.645a12.001,12.001,0,0,0-20.25781,0l-32.0039,50.37109a11.77849,11.77849,0,0,0-.748,1.36426,12.19236,12.19236,0,0,0,.56445-1.44922l27.7334-87.59424a12,12,0,0,0-18.80762-13.09423L59.75073,152.26807a11.98355,11.98355,0,0,0-1.11816.98681,12.06015,12.06015,0,0,0,.9873-1.11816L98.656,101.94678A7.93924,7.93924,0,0,1,103.88745,100h48a7.9392,7.9392,0,0,1,5.23144,1.94678L196.155,152.13672a11.98078,11.98078,0,0,0,.98632,1.11767A11.96655,11.96655,0,0,0,196.02417,152.26807Z"/></svg>';
+      const dotIcon = `<svg fill="none" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 9.5C13.3807 9.5 14.5 10.6193 14.5 12C14.5 13.3807 13.3807 14.5 12 14.5C10.6193 14.5 9.5 13.3807 9.5 12C9.5 10.6193 10.6193 9.5 12 9.5Z" fill="#1A6F66"/>
+              </svg>`;
+
+      const leafletIcon = L.divIcon({
+        html: personIcon,
+        iconSize: [50, 50],
+      });
+      const dotMapIcon = L.divIcon({
+        html: dotIcon,
+        iconSize: [70, 70],
+      });
+
+      $(function () {
+        // initial map
+        map = L.map("map").setView([27.7172, 85.324], 13);
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          name: "map",
+        }).addTo(map);
+        L.layerGroup().addTo(map);
+
+        // remove zoom control from left size and add to right size
+        map.zoomControl.remove();
+        L.control
+          .zoom({
+            position: "topright",
+          })
+          .addTo(map);
+
+        if (window.location.href.indexOf("?") !== -1) {
+          // get parameters from url
+          populatePreselectedReport();
+        }
+      });
+
+      function populatePreselectedReport() {
+        map.eachLayer((layer) => {
+          if (layer.options.name !== "map") map.removeLayer(layer);
+        });
+
+        if (window.location.href.indexOf("?") !== -1) {
+          const newUrl = new URL(window.location.href);
+
+          const partnerId = newUrl.searchParams.get("partnerId");
+          const date = newUrl.searchParams.get("date");
+
+          const finalUrl = `/api/get-saleperson-report-by-id?partnerId=${partnerId}&date=${date}`;
+          fetch(finalUrl)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              if (!data.status) throw new Error(data.message);
+
+              map.eachLayer((layer) => {
+                if (layer.options.name !== "map") map.removeLayer(layer);
+              });
+              report = data.data;
+              const positions = report.positions;
+
+              const marker1 = L.marker(
+                [report.start_address.lat, report.start_address.lon],
+                {}
+              ).addTo(map);
+              marker1.bindPopup(`Date : ${report.date}<br/>
+                                    PIN: Start Location<br/>`);
+
+              const marker2 = L.marker(
+                [report.end_address.lat, report.end_address.lon],
+                {
+                  icon: leafletIcon,
+                }
+              ).addTo(map);
+              marker2
+                .bindPopup(
+                  `<b>Date : ${report.date}</b>
+                                    <br/>Pin: End Location<br/>`
+                )
+                .openPopup();
+
+              drawLineInMap(positions);
+
+              highlightDevice(report.device_id);
+
+              positions.map((position, key) => {
+                L.marker([position.lat, position.lon], {
+                  icon: dotMapIcon,
+                })
+                  .addTo(map)
+                  .bindPopup(`Time : ${position.time}</br>`);
+              });
+            })
+            .catch((error) => {
+              console.error(
+                "There was a problem with the fetch operation:",
+                error
+              );
+            });
+        }
+      }
+
+      function drawLineInMap(positions, color = "red") {
+        if (positions.length > 0) {
+          let positions_array = [];
+          positions.map((position) => {
+            positions_array.push([position.lat, position.lon]);
+          });
+
+          const polyline = L.polyline(positions_array, {
+            color: color,
+            name: "path",
+            weight: 5,
+          }).addTo(map);
+
+          map.fitBounds(polyline.getBounds());
+        }
+      }
+
+      function highlightDevice(deviceId) {
+        $(".device-box").removeClass("box-hover");
+        $(`#device-${deviceId}`).addClass("box-hover");
+      }
+    </script>
+  </body>
+</html>

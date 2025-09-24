@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- View res.users form -->
+    <record id="route_management_view_form_inherited" model="ir.ui.view">
+        <field name="name">route.management.view.form.inherited</field>
+        <field name="model">user.route.schedule</field>
+        <field name="inherit_id" ref="route_management.view_form_user_route_schedule_ui"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="domain">
+                    [('role','in',('sale_person','sale_agent'))]
+                </attribute>
+                <attribute name="invisible">
+                    route_id.parent_id
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="user_id" domain="[('role','in',('sale_person','sale_agent'))]" invisible="not route_id.parent_id"/>
+            </xpath>
+        </field>    
+    </record>
+
+</odoo>

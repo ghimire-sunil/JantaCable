@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fleet_vehicle_form_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.form.inherit</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='return_action_to_open']" position="before">
+                    <button name="return_action_to_gps_report" type="object" class="oe_stat_button"
+                            icon="fa-map-marker"
+                            help="show the GPS Report of this vehicle">
+                        GPS Report
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='driver_id']" position="after">
+                    <field name="device_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

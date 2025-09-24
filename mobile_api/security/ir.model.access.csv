@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_image,access_crm_image,model_crm_image,base.group_user,1,1,1,1
+access_banner_image,access_banner_image,model_banner_image,base.group_user,1,1,1,1
+access_sale_image,access_sale_image,model_sale_image,base.group_user,1,1,1,1
+
+
+mobile_api.access_distributer_order,access_distributer_order,mobile_api.model_distributor_order,base.group_user,1,1,1,1,
+mobile_api.access_distributer_order_line,access_distributer_order_line,mobile_api.model_distributor_order_line,base.group_user,1,1,1,1,
+mobile_api.access_partner_location,access_partner_location,mobile_api.model_partner_location,base.group_user,1,1,1,1
+mobile_api.access_sale_person_report,access_sale_person_report,mobile_api.model_sale_persons_report,base.group_user,1,1,1,1
+
+mobile_api.access_distributor_commission_plan,access_distributor_commission_plan,mobile_api.model_distributor_commission_plan,base.group_user,1,1,1,1
+mobile_api.access_distributor_commission_plan_target,access_distributor_commission_plan_target,mobile_api.model_distributor_commission_plan_target,base.group_user,1,1,1,1
+mobile_api.access_distributor_commission_plan_user,access_distributor_commission_plan_user,mobile_api.model_distributor_commission_plan_user,base.group_user,1,1,1,1
+mobile_api.access_distributor_achievement_report,access_distributor_achievement_report,mobile_api.model_distributor_achievement_report,base.group_user,1,1,1,1
+mobile_api.access_distributor_achievement_wizard,access_distributor_achievement_wizard,mobile_api.model_distributor_achievement_wizard,base.group_user,1,1,1,1

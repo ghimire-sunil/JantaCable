@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_master_attendance_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.employee_attendance_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- Attendance Template -->
+    <template id="employee_attendance_temp" name="custom_payment">
+        <t t-set="main_company" t-value="doc.env['res.company'].browse(1)"/>
+        <div class="row">
+            <div class="col-6 text-start fw-bold" style="font-size:25px;">
+                <span>Employee Attendance</span>
+            </div>
+            <div class="col-6 text-end  fw-bold" style="font-size:25px;">
+                <span class="me-2">From :</span><t t-out="doc.date_from"/><br/>
+                <span class="me-2">To :</span><t t-out="doc.date_to"/>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <table style="width:100%;">
+                <thead>
+                    <tr class="bg-secondary">
+                        <th class="fw-bold">Employee Name</th>
+                        <th class="fw-bold">Check-In</th>
+                        <th class="fw-bold">Check-Out</th>
+                        <th class="fw-bold">Worked Hrs.</th>
+                        <th class="fw-bold">Extra Worked Hrs.</th>
+                    </tr>
+
+                    <tbody>
+                        <t t-foreach="doc.attendance_of_employee()" t-as="att">
+                            <tr>
+                                <td class="p-1 text-center"><t t-esc="att['employee_name']"/></td>
+                                <td class="p-1 text-center"><t t-esc="att['check_in']"/></td>
+                                <td class="p-1 text-center"><t t-esc="att['check_out']"/></td>
+                                <td class="p-1 text-center"><t t-esc="att['worked_hours']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td class="p-1 text-center"><t t-esc="att['extra_hours']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </thead>
+            </table>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_employee_attendance_paperformat" model="report.paperformat">
+        <field name="name">Employee Attendance</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_attendance_employee_action" model="ir.actions.report">
+        <field name="name">Employee Attendance</field>
+        <field name="model">attendance.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_master_attendance_template</field>
+        <field name="report_file">custom_approval_form.common_master_attendance_template</field>
+        <field name="binding_model_id" ref="custom_approval_form.model_attendance_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_employee_attendance_paperformat" />
+    </record>
+
+</odoo>

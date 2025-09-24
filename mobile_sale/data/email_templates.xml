@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- email templates for otp -->
+        <record id="mail_template_user_otp_reset_password" model="mail.template">
+            <field name="name">Mobile: OTP Password Reset</field>
+            <field name="model_id" ref="base.model_res_users" />
+            <field name="subject">OTP For Aquaworld App</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or user.email_formatted)
+                }}</field>
+            <field name="email_to">{{ object.email_formatted }}</field>
+            <field name="description">Sent to portal user for password reset</field>
+            <field name="body_html" type="html">
+                <h1>{{object.last_otp}}</h1>
+            </field>
+            <!-- <field name="lang">{{ object.lang }}</field> -->
+            <field name="auto_delete" eval="True" />
+        </record>
+    </data>
+</odoo>

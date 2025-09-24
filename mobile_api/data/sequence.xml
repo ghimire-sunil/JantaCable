@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="seq_banner_img" model="ir.sequence">
+        <field name="name">Banner Images</field>
+        <field name="code">banner.images</field>
+        <field name="prefix">BNR/IMG</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+
+    <record id="seq_distributor_order" model="ir.sequence">
+        <field name="name">Distributor Order</field>
+        <field name="code">distributor_order.order</field>
+        <field name="prefix">DO</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>

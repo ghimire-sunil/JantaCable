@@ -1,0 +1,18 @@
+<odoo>
+    <menuitem id="menu_sales_report_root"
+              name="Sales Report"
+              parent="sale.menu_sale_report"
+              sequence="100" />
+
+    <record id="action_sale_report_wizard" model="ir.actions.act_window">
+        <field name="name">Sales Report Wizard</field>
+        <field name="res_model">sale.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_sale_report_wizard"
+              name="Daily Sales Report"
+              parent="menu_sales_report_root"
+              action="action_sale_report_wizard"/>
+</odoo>

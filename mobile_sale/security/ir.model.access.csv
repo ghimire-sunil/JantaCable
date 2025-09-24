@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mobile_sale_mobile_sale,mobile_sale.mobile_sale,model_mobile_sale_mobile_sale,base.group_user,1,1,1,1

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_form_view_inherited" model="ir.ui.view">
+        <field name="name">account.form.view.inherited</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='allowed_journal_ids']" position="after">
+                <field name="container_deposit_account"/>
+                <!-- <field name="container_deposit_payment_account"/> -->
+            </xpath>
+        </field>
+    </record>
+
+     <record id="account_journal_form_view_inherited" model="ir.ui.view">
+        <field name="name">account.journal.form.view.inherited</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="container_deposit_journal"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

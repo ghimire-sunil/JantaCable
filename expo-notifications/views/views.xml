@@ -1,0 +1,76 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="expo_devices_list">
+      <field name="name">Expo Device List</field>
+      <field name="model">expo.device</field>
+      <field name="arch" type="xml">
+        <list editable="bottom">
+          <field name="user_id" />
+          <field name="expo_push_token" />
+          <field name="origin_app" />
+        </list>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="expo_devices_form">
+      <field name="name">Expo Device</field>
+      <field name="model">expo.device</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="user_id" />
+              <field name="expo_push_token" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="expo_message_list">
+      <field name="name">Expo Device List</field>
+      <field name="model">expo.message</field>
+      <field name="arch" type="xml">
+        <list>
+          <!-- <field name="device_id" /> -->
+           <field name="user_id"/>
+          <field name="body" />
+          <field name="title" />
+          <field name="state" />
+        </list>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="expo_message_form">
+      <field name="name">Expo Device</field>
+      <field name="model">expo.message</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button invisible="state !='draft'" string="Send Notification"
+              name="action_send_notifications" type="object"
+              class="oe_highlight" />
+            <button string="Re-Try" name="action_send_notifications" type="object"
+              invisible="state != 'failed'"
+              class="oe_highlight" />
+            <field name="state" widget="statusbar"></field>
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <!-- <field name="device_id" /> -->
+                <field name="user_id"/>
+                <field name="body" />
+                <field name="read_message"/>
+              </group>
+              <group>
+                <field name="title" />
+                <field name="date"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+  </data>
+</odoo>

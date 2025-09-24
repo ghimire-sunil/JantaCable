@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_search_view_inherit" model="ir.ui.view">
+        <field name="name">sale.search.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation" />
+        <field name="arch" type="xml">
+            <filter name="sales" position="after">
+                <filter string="Not Assigned Daily Sales Order" name="not_assigned_daily" domain="[('delivery_boy_picking_id', '=', False), ('state', '=', 'sale'),('date_order', '&gt;=', context_today().strftime('%Y-%m-%d')),('date_order', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+            </filter>
+        </field>
+    </record>
+</odoo>

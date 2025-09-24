@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_vendor_post_dated_cheque.menu_vendor_pdc_payment" model="ir.ui.menu">
+        <field name="parent_id" ref="accountant.menu_accounting"/>
+    </record>
+</odoo>

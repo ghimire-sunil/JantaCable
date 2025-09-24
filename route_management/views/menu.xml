@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <menuitem id="partner_route_management_menu" name="Route Management" web_icon="route_management,static/description/icon.png" sequence="10" />
+        <menuitem id="partner_route_management_route_menu" name="Partner Route" action="route_management.partner_route_action" parent="partner_route_management_menu" sequence="1" />
+        
+        <menuitem id="res_partner_menu_contacts" name="Customers" action="contacts.action_contacts" parent="partner_route_management_menu" sequence="3" />
+        <menuitem id="res_partner_menu_outlet_types" name="Outlet Types" action="route_management.action_outlet_types" parent="partner_route_management_menu" sequence="4" />
+        <!-- <menuitem id="user_product_brand_menu_contacts" name="Brand" action="user_product_brand_action" parent="partner_route_management_menu" sequence="5" /> -->
+
+        <menuitem id="route_schedule_menu" name="Schedule" sequence="2" parent="partner_route_management_menu" />
+        <menuitem id="user_route_schedule_management_route_menu" name="Schedule Route" action="route_management.user_route_schedule_list_action" parent="route_schedule_menu" sequence="1" />
+        <menuitem id="action_route_management_wizard_menu" name="Multiple Schedule Route" action="route_management.action_route_management_wizard_view" parent="route_schedule_menu" sequence="2" />
+    </data>
+
+</odoo>

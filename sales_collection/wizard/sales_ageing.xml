@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form to select the salesperson, start date, and end date -->
+        <record id="sale_ageing_wizard_form" model="ir.ui.view">
+            <field name="name">Sales Collection Ageing in Excel</field>
+            <field name="model">sales.ageing.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Sales Collection Ageing in Excel">
+                    <group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <!-- a button to start the download process -->
+                        <button name="get_sale_excel_report" string="Export (XLS)" type="object"
+                                class="btn-primary"/>
+                        <!-- a cancel button to close the form -->
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- the action to open the form above -->
+        <record model="ir.actions.act_window" id="action_open_sales_ageing_form">
+            <field name="name">Sales Ageing in Excel Format</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.ageing.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- The menu item in Sale >> Reporting menu, to invoke the above action, so the user can see the form -->
+        <menuitem name="Sales Collection"
+                id="menu_sale_ageing_in_excel"
+                parent="sale.menu_sale_report"
+                action="action_open_sales_ageing_form" />
+    </data>
+</odoo>

@@ -1,0 +1,223 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="delivery_boy.list">
+      <field name="name">Delivery Boy list</field>
+      <field name="model">delivery_boy.picking</field>
+      <field name="arch" type="xml">
+        <list default_order='name desc' decoration-bf="priority == 'high' and state != 'completed'"
+          decoration-danger="priority == 'high' and state != 'completed'"
+          decoration-warning="priority == 'low' and state != 'completed'">
+          <field name="currency_id" column_invisible="1" />
+          <field name="priority" column_invisible="1" />
+          <field name="name" />
+          <field name="partner_id" />
+          <field name="delivery_street" />
+          <field name="stock_picking_id" />
+          <field name="sale_id" />
+          <field name="assigned" />
+          <field name="schedule_date" />
+          <field name="state" widget="badge" decoration-warning="state=='pending'"
+            decoration-success="state=='completed'"
+            decoration-danger="state=='cancel'" />
+        </list>
+      </field>
+    </record>
+
+    <!-- delivery boy search view -->
+    <record model="ir.ui.view" id="delivery_boy.search_view">
+      <field name="name">Delivery Boy Search View</field>
+      <field name="model">delivery_boy.picking</field>
+      <field name="arch" type="xml">
+        <search>
+          <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]" />
+          <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]" />
+          <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]" />
+          <filter string="Cancelled" name="canceled" domain="[('state', '=', 'cancel')]" />
+          <filter string="Shipped" name="shipped" domain="[('state', '=', 'shipped')]"/>
+          <filter string="Pending till Today" name="date_pending" domain="[('state', '=', 'pending'), ('schedule_date', '&lt;=', context_today())]"/>
+          
+          <filter string="Today Completed" name="date_complete" domain="[('completed_at', '>=', context_today().strftime('%Y-%m-%d 00:00:00')), ('completed_at', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+
+        </search>
+      </field>
+    </record>
+
+    <!-- delivery boy form view -->
+    <record model="ir.ui.view" id="delivery_boy.picking_form">
+      <field name="name">Delivery Picking Form</field>
+      <field name="model">delivery_boy.picking</field>
+      <field name="arch" type="xml">
+        <form>
+          <field name="currency_id" invisible="1" />
+          <header>
+            <button invisible="state == 'completed' or state =='draft'" type="object"
+              class="btn-primary"
+              name="action_completed"
+              string="Mark Completed" />
+
+
+            <button invisible="state !='pending'" type="object"
+              name="action_shipped"
+              string="Set Shipped" />
+            <button invisible="state == 'cancel' or state =='draft'" type="object"
+              class="btn-danger"
+              name="action_cancelled" string="Cancel" />
+
+            <button invisible="state !='draft'" type="object" class="oe_highlight"
+              name="action_confirm" string="Confirm" />
+
+            <button invisible="state !='completed' or  collected_amount >= amount_to_collect"
+              type="object" class="oe_highlight"
+              name="action_open_payment_wizard" string="Register Payment" />
+
+            <button invisible="state == 'draft'" type="object" name="set_to_draft"
+              string="Reset To Draft" />
+              
+              <!-- <button invisible="state == 'date' or state =='draft'" type="object"
+              class="btn-primary"
+              name="action_date"
+              string="" /> -->
+
+              <!-- filter adding -->
+            <!-- <button invisible="state == 'date'" type="object" name="date"
+            string="Reset To Date" /> -->
+
+
+
+            <field name="state" widget="statusbar"></field>
+          </header>
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button name="action_view_payments" type="object" class="oe_stat_button"
+                icon="fa-money" invisible="payments_count == 0">
+                <field name="payments_count" widget="statinfo" string="Collected Cash" />
+              </button>
+            </div>
+            <div class="oe_title">
+              <h1>
+                <field name="name" readonly="1" />
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field readonly="state != 'draft'" name="stock_picking_id" />
+                <field readonly="state != 'draft'" name="delivery_address" />
+                <field readonly="state == 'completed'" name="priority" />
+                <field readonly="state != 'draft'" name="assigned"
+                  context="{'default_is_delivery_person':'true'}" />
+                <field name="amount_to_collect" />
+                <field name="schedule_date"
+                  readonly="state != 'draft'"
+                  options="{
+                  'min_date':'today'
+                }" />
+              </group>
+              <group>
+                <field readonly="state != 'draft'" name="sale_id" />
+                <field name="total_amount" />
+                <field name="payment_method" />
+                <field name="collected_amount" />
+                <field name="delivered_amount" string="Final Amount" />
+                <field readonly="state != 'draft'"
+                  name="completed_at" invisible="state != 'completed'" />
+              </group>
+            </group>
+            <notebook>
+              <page name="picking_lines" string="Picking">
+                <field name="picking_lines" readonly="state=='completed'">
+                  <list create="False">
+                    <field name="product_id"></field>
+                    <field name="quantity"></field>
+                    <field name="product_uom_qty"></field>
+                    <field name="price"></field>
+                  </list>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <!-- <div class="oe_chatter">
+            <field name="message_follower_ids" />
+            <field name="message_ids" />
+          </div> -->
+          <chatter/>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="delivery_boy.picking_map">
+      <field name="name">Delivery Map View</field>
+      <field name="model">delivery_boy.picking</field>
+      <field name="arch" type="xml">
+        <map res_partner="delivery_address" default_order="schedule_date">
+          <field name="delivery_address" string="Delivery Address" />
+        </map>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="delivery_boy.payment_list">
+      <field name="name">Delivery Payment list</field>
+      <field name="model">delivery_boy.payment</field>
+      <field name="arch" type="xml">
+        <list default_order='name desc'>
+          <field name="name" />
+          <field name="picking_id" />
+          <field name="sale_id" />
+          <field name="partner_id" />
+          <field name="collected_by" />
+          <field name="verified_by" />
+          <field name="amount" sum="Total Collection" />
+          <field name="state" widget="badge" decoration-success="state=='posted'"
+            decoration-warning="state=='pending'" />
+          <field name="currency_id" column_invisible="1" />
+        </list>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="delivery_boy.payment_form">
+      <field name="name">Delivery Payment </field>
+      <field name="model">delivery_boy.payment</field>
+      <field name="arch" type="xml">
+        <form>
+          <field name="currency_id" invisible="1" />
+          <header>
+            <button invisible="state == 'posted' or state == 'draft'" type="object"
+              class="btn-primary"
+              name="action_verified"
+              string="Post" />
+            <button invisible="state !='draft'" type="object" class="oe_highlight"
+              name="action_confirm" string="Confirm" />
+            <button invisible="state == 'draft'" type="object" name="reset_to_draft"
+              string="Reset To Draft" />
+            <field name="state" widget="statusbar"></field>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" readonly="1" />
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field readonly="state != 'draft'" name="picking_id" />
+                <field readonly="state != 'draft'" name="amount" widget="monetary" />
+                <field name="payment_date"
+                  readonly="state != 'draft'"
+                />
+              </group>
+              <group>
+                <field name="sale_id" />
+                <field readonly="state != 'draft'" name="collected_by" />
+                <field readonly="state != 'draft'" name="verified_by" />
+              </group>
+            </group>
+          </sheet>
+          <!-- <div class="oe_chatter">
+            <field name="message_follower_ids" />
+            <field name="message_ids" />
+          </div> -->
+          <chatter/>
+        </form>
+      </field>
+    </record>
+  </data>
+</odoo>

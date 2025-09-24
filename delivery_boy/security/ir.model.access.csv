@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+delivery_boy.access_delivery_boy_picking,access_delivery_boy_picking,delivery_boy.model_delivery_boy_picking,base.group_user,1,1,1,1,
+delivery_boy.access_delivery_boy_payment,access_delivery_boy_payment,delivery_boy.model_delivery_boy_payment,base.group_user,1,1,1,1,
+delivery_boy.access_delivery_boy_picking_assigned,access_delivery_boy_picking_assigned,delivery_boy.model_delivery_boy_picking_assigned,base.group_user,1,1,1,1,
+delivery_boy.access_delivery_boy_delivery_report,access_delivery_boy_delivery_report,delivery_boy.model_delivery_boy_delivery_report,base.group_user,1,1,1,1,
+delivery_boy.access_delivery_boy_payment_report,access_delivery_boy_payment_report,delivery_boy.model_delivery_boy_payment_report,base.group_user,1,1,1,1,
+delivery_boy.access_delivery_boy_payment_register,access_delivery_boy_payment_register,delivery_boy.model_delivery_boy_payment_register,base.group_user,1,1,1,1,

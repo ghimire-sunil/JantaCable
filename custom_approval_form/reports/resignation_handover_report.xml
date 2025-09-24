@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_resignation_handover_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.resignation_handover_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- REsignation Handover Template -->
+    <template id="resignation_handover_temp" name="custom_payment">
+        <div class="text-center fw-bold">
+            <span>Kedia Organisation</span><br/>
+            <span>HANDOVER LETTER</span>
+        </div>
+        <div>
+            <p>Date:</p>
+            <p>Name:</p>
+            <p>Designation:</p>
+            <p>Department:</p>
+            <p>Branch:</p>
+        </div>
+        <div>
+            <p>To New staff</p>
+        </div>
+        <div>
+            <p>Cc. line Manager</p>
+        </div>
+        <div>
+            <p>In accordance with the Company Handover Policy and Procedures, I am providing below the
+            necessary information supported by hard copies / soft copies.</p>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <thead>
+                    <tr>
+                        <th class="text-center p-1 fw-bold">Projects</th>
+                        <th class="text-center p-1 fw-bold">Handover to</th>
+                        <th class="text-center p-1 fw-bold">Signature</th>
+                        <th class="text-center p-1 fw-bold">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-2" style="height:10px;"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2" style="height:10px;"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                    </tr>
+                    <tr>
+                        <td class="p-2" style="height:10px;"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                        <td class="p-2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <p>I confirm that:</p>
+        </div>
+        <div>
+            <p>We have discussed the Branch/Department issue in detail outlined above.</p>
+        </div>
+        <div>
+            <p>I have handed over all the fixed assets of the Company that relate to this position, which were in my
+            possession.</p>
+        </div>
+        <div>
+            <p>I also confirm that there are no other outstanding issues to the best of my knowledge at this point in time.
+            Should any issues arise later, I will provide necessary support to facilitate understanding and resolution as
+            appropriate.</p>
+        </div>
+        <div>
+            <p>Signed:</p>
+        </div>
+        <div>
+            <p>Outgoing Staff</p>
+        </div>
+        <div>
+            <p>I confirm that I have received the above information. Any amendments or additions by me are covered in
+            this letter.</p>
+        </div>
+        <div>
+            <p>There are no other outstanding matters that require attention and I now accept ownership of the
+            Departments/Branch as they apply to my area of responsibility and as will be amended by the actions
+            agreed.</p>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <span>Staff</span><br/>
+                <span>(Acceptance)</span><br/>
+                <span>Date:</span><br/>
+            </div>
+            <div class="col-6">
+                <span>Line Manager</span><br/>
+                <span>(Acceptance)</span><br/>
+                <span>Date:</span><br/>
+            </div>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_resignation_handover_paperformat" model="report.paperformat">
+        <field name="name">Resignation Handover</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_resignation_handover_action" model="ir.actions.report">
+        <field name="name">Resignation Handover</field>
+        <field name="model">hr.departure.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_resignation_handover_template</field>
+        <field name="report_file">custom_approval_form.common_resignation_handover_template</field>
+        <field name="binding_model_id" ref="custom_approval_form.model_hr_departure_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_resignation_handover_paperformat" />
+    </record>
+
+</odoo>

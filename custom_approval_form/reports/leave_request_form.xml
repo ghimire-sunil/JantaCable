@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_master_leave_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.leave_approval_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- Leave Approval Template -->
+    <template id="leave_approval_temp" name="custom_leave_approval">
+        <t t-set="main_company" t-value="doc.env['res.company'].browse(1)"/>
+        <div class="row">
+            <div class="col-6">
+                <img t-att-src="image_data_uri(doc.company_id.logo)" style="width:150px;height:80px"/>
+            </div>
+            <div class="col-6 text-end fw-bold" style="font-size:25px;">
+                <span>LEAVE REQUEST FORM</span>
+            </div>
+        </div>
+        <div style="margin-top:20px;">
+            <table style="width:100%;">
+                <tr>
+                    <td colspan="3" class="p-2 fw-bold">Leave Date: <span class="me-2 ms-2">From:</span> <t t-out="doc.date_start"/> <span class="me-2 ms-2">TO:</span> <t t-out="doc.date_end"/> (<t t-out="(doc.date_end - doc.date_start).days + 1"/><span class="ms-2">days</span>)</td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="p-2"><span class="fw-bold">Type of Leave (Tick):</span><span class="ms-2">Half Leave/ Annual Leave/ Sick Leave/Unpaid Leave/Substitute/Maternity
+
+Leave/Paternity Leave/Bereavement Leave</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="p-2">Reason:<span class="ms-2"><t t-out="doc.reason"/></span></td>
+                </tr>
+                <tr class="bg-secondary">
+                    <td></td>
+                    <td class="p-2 fw-bold text-center">Requested By</td>
+                    <td class="p-2 fw-bold text-center">Person working on behalf</td>
+                </tr>
+                <tr>
+                    <td class="p-2">Name</td>
+                    <td class="p-2 text-center"><t t-out="doc.request_owner_id.name"/></td>
+                    <td class="p-2 text-center"><t t-out="doc.behalf_worker_id.name"/></td>
+                </tr>
+                <tr>
+                    <td class="p-2">Designation</td>
+                    <td class="p-2 text-center"><t t-out="doc.request_owner_id.employee_id.job_id.name"/></td>
+                    <td class="p-2 text-center"></td>
+                </tr>
+                <tr>
+                    <td class="p-2" colspan="2"><div class="row"><div class="col-6 fw-bold">Employee Sign :</div><div class="col-6 fw-bold">Date:</div></div></td>
+                    <td class="p-2"><div class="row"><div class="col-6 fw-bold">Employee Sign :</div><div class="col-6 fw-bold">Date:</div></div></td>
+                </tr>
+                <tr class="bg-secondary">
+                    <td class="p-2 text-center fw-bold" colspan="3">Approved by</td>
+                </tr>
+                <tr>
+                    <td class="p-2 fw-bold" colspan="3" style="height:150px; padding:0;"><div class="row text-center d-flex align-items-end" style="height:100%;"> <div class="col-4 d-flex flex-column justify-content-end">--------------------------<br/>Reporting Manager<br/>Name:</div>       <div class="col-4 d-flex flex-column justify-content-end">Date:</div>      <div class="col-4 d-flex flex-column justify-content-end">-------------------<br/>Director</div></div></td>
+                </tr>
+            </table>
+
+            <table style="width:100%;margin-top:10px;">
+                <!-- <t t-out="doc.count_employee_leaves()"/> -->
+                <tr>
+                    <td class="p-2 fw-bold text-center">Type of Leaves</td>
+                    <td class="p-2 fw-bold text-center">From</td>
+                    <td class="p-2 fw-bold text-center">To</td>
+                    <td class="p-2 fw-bold text-center">Total</td>
+                    <td class="p-2 fw-bold text-center">Remarks</td>
+                </tr>
+        
+                <t t-foreach="doc.count_employee_leaves()['leaves']" t-as="leave">
+                    <tr>
+                        <td class="p-2"><t t-esc="leave['leave_name']"/></td>
+                        <td class="p-2"><t t-esc="leave['leave_from']"/></td>
+                        <td class="p-2"><t t-esc="leave['leave_to']"/></td>
+                        <td class="p-2"><t t-esc="leave['total_day']"/></td>
+                        <td class="p-2"><t t-esc="leave['leave_remark']"/></td>
+                    </tr>
+                </t>
+                <tr>
+                    <td class="p-2 fw-bold text-end" colspan="3">Total Days</td>
+                    <td class="p-2 text-center"> <t t-esc="doc.count_employee_leaves()['grand_total']"/></td>
+                    <td class="p-2 text-center"></td>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_approval_leave_paperformat" model="report.paperformat">
+        <field name="name">Leave Approvals</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_leave_approvals_action" model="ir.actions.report">
+        <field name="name">Leave Approvals</field>
+        <field name="model">approval.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_master_leave_template</field>
+        <field name="report_file">custom_approval_form.common_master_leave_template</field>
+        <field name="binding_model_id" ref="approvals.model_approval_request"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_approval_leave_paperformat" />
+    </record>
+
+</odoo>

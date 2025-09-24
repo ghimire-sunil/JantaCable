@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <record id="action_delivery_report" model="ir.actions.report">
+            <field name="name">Reports</field>
+            <field name="model">delivery_boy.delivery_report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">delivery_boy.delivery_report</field>
+            <field name="report_file">delivery_boy.delivery_report</field>
+            <field name="binding_model_id" eval="False"></field>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="delivery_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 align="center">Delivery Report </h2>
+                        <h5 align="center"> Delivery Person : <t t-out="data['form']['name']" />
+                        </h5>
+                        <br />
+                        <p style="text-align:left;">
+                            <strong>From: </strong>
+                            <span t-esc="data['form']['start_date']" />
+                            <span style="float:right;">
+                                <strong>To: </strong>
+                                <span t-esc="data['form']['end_date']" />
+                            </span>
+                        </p>
+                        <div>
+                            <table class="table" width='100%'>
+                                <thead>
+                                    <tr>
+                                        <th style='border: 1px solid black;text-align:center;'>Schedule
+                                            Date</th>
+                                        <th style='border: 1px solid black;text-align:center;'>WH
+                                            Order</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Sale
+                                            Order</th>
+                                        <th style='border: 1px solid black;text-align:center;'>
+                                            Amount</th>
+                                        <th style='border: 1px solid black;text-align:center;'>
+                                            Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total" t-value="0" />
+                                    <t t-foreach='docs' t-as='delivery'>
+                                        <t t-if="delivery.state =='completed'">
+                                            <t t-set="total" t-value="total+delivery.total_amount" />
+                                        </t>
+                                        <tr>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <span t-field="delivery.schedule_date" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <span t-field="delivery.stock_picking_id" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <span t-field="delivery.sale_id" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <span t-field="delivery.total_amount" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <span t-field="delivery.state" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfooter>
+                                    <td style='border: 1px solid black;text-align:center;'
+                                        colspan='3'>Total</td>
+                                    <td style='border: 1px solid black;text-align:center;'
+                                        colspan='2'> Rs <t t-out="total" />
+                                    </td>
+                                </tfooter>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

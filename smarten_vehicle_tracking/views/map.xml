@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_view_in_map" model="ir.actions.act_url">
+        <field name="name">Map View</field>
+        <field name="url">/maps</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            name="Map View"
+            id="fleet_vehicle_map_menu"
+            sequence="5"
+            parent="fleet.menu_root"
+            action="action_view_in_map"/>
+
+</odoo>

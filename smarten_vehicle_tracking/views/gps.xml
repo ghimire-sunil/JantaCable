@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_smarten_vehicle_tracking_gps_device" model="ir.actions.act_window">
+            <field name="name">Device</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">gps.device</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_smarten_vehicle_tracking_gps_position" model="ir.actions.act_window">
+            <field name="name">Position Logs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.gps_position</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <menuitem name="GPS" parent="fleet.fleet_configuration" id="fleet_gps_configuration" sequence="10" groups="base.group_user"/>
+        <menuitem action="action_smarten_vehicle_tracking_gps_device" parent="fleet_gps_configuration" id="fleet_device_setting" sequence="1"/>
+        <menuitem action="action_smarten_vehicle_tracking_gps_position" parent="fleet_gps_configuration" id="fleet_gps_position_logs_setting" sequence="2"/>
+
+
+        <record id="smarten_vehicle_tracking_gps_device_tree_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.device.list</field>
+            <field name="model">gps.device</field>
+            <field name="arch" type="xml">
+                <list>
+                    <header>
+                        <button string="Sync Device" name="sync_with_traccar" type="object" class="oe_highlight" display="always" />
+                    </header>
+                    <field name="name"/>
+                    <field name="imei"/>
+                    <field name="phone"/>
+                    <field name="model"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="smarten_vehicle_tracking_gps_device_form_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.device.form</field>
+            <field name="model">gps.device</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <div class="row">
+                                    <label class="col-md-3 o_light_label" for="name" string="Device Name"/>
+                                    <field name="name"/>
+                                </div>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <field name="imei"/>
+                            <field name="phone"/>
+                            <field name="model"/>
+                            <field name="server_device_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="smarten_vehicle_tracking_fleet_gps_position_tree_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.position.list</field>
+            <field name="model">fleet.gps_position</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="device_id"/>
+                    <field name="device_time"/>
+                    <field name="latitude"/>
+                    <field name="longitude"/>
+                    <field name="altitude"/>
+                    <field name="speed"/>
+                    <field name="address"/>
+                    <field name="course"/>
+                </list>
+            </field>
+        </record>
+
+
+        <record id="action_smarten_vehicle_tracking_gps_report" model="ir.actions.act_window">
+            <field name="name">GPS Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.gps_report</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem action="action_smarten_vehicle_tracking_gps_report" parent="fleet_gps_configuration" id="fleet_gps_report_logs_setting" sequence="3"/>
+
+        <record id="smarten_vehicle_tracking_fleet_gps_report_tree_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.report.list</field>
+            <field name="model">fleet.gps_report</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="vehicle_id"/>
+                    <field name="date"/>
+                    <field name="driver_id"/>
+                    <field name="max_speed_formatted"/>
+                    <field name="average_speed_formatted"/>
+                    <field name="start_time" widget="datetime" options="{'format': 'YYYY-MM-DD'}"/>
+                    <field name="end_time" widget="datetime" options="{'format': 'YYYY-MM-DD'}"/>
+                    <!-- <button string="View In Map" class="oe_highlight" type="object" name="button_action_map_view"/> -->
+                </list>
+            </field>
+        </record>
+
+        <record id="smarten_vehicle_tracking_fleet_gps_report_form_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.report.form</field>
+            <field name="model">fleet.gps_report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="container">
+                        <sheet>
+                            <div class="oe_title">
+                                <h5>
+                                    <div class="row">
+                                        <label class="col-md-3 o_light_label" for="date" string="Date"/>
+                                        <field name="date"/>
+
+                                        <label class="col-md-3 o_light_label" for="vehicle_id" string="Vehicle"/>
+                                        <field name="vehicle_id"/>
+                                    </div>
+                                    <div>
+                                        <label class="col-md-3 o_light_label" for="driver_id" string="Driver"/>
+                                        <field name="driver_id"/>
+                                    </div>
+                                </h5>
+                            </div>
+                        </sheet>
+                        <sheet>
+                            <div>
+                                <label class="col-md-3 o_light_label" for="max_speed_formatted" string="Max Speed"/>
+                                <field name="max_speed_formatted"/>
+                            </div>
+
+                            <div>
+                                <label class="col-md-3 o_light_label" for="average_speed_formatted" string="Average Speed"/>
+                                <field name="average_speed_formatted"/>
+                            </div>
+                        </sheet>
+                        <sheet>
+                            <div>
+                                <label class="col-md-3 o_light_label" for="start_time" string="Start time"/>
+                                <field name="start_time"/>
+                            </div>
+                            <div>
+                                <label class="col-md-3 o_light_label" for="end_time" string="End time"/>
+                                <field name="end_time"/>
+                            </div>
+                            <div>
+                                <label class="col-md-3 o_light_label" for="start_address" string="Start Address"/>
+                                <field name="start_address"/>
+                            </div>
+                            <div>
+                                <label class="col-md-3 o_light_label" for="end_address" string="End Address"/>
+                                <field name="end_address"/>
+                            </div>
+                        </sheet>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="smarten_vehicle_tracking_fleet_gps_report_report_view" model="ir.ui.view">
+            <field name="name">smarten_vehicle_tracking.gps.report.report</field>
+            <field name="model">fleet.gps_report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="date" string="Date"/>
+                    <filter string="Current Month" name="filter_current_month" domain="[('date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')), ('date', '&lt;', (context_today() + relativedelta(months=1, day=1, days=-1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Previous Month" name="filter_previous_month" domain="[('date', '&gt;=', (context_today() - relativedelta(months=1, day=1)).strftime('%Y-%m-%d')), ('date', '&lt;', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Vehicle" name="vehicle_id" context="{'group_by': 'vehicle_id'}"/>
+                    <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

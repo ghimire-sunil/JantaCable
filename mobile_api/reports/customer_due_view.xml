@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+        <record id="action_customer_due" model="ir.actions.report">
+            <field name="name">Customer Due</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mobile_api.customer_due</field>
+            <field name="report_file">mobile_api.customer_due</field>
+            <field name="binding_model_id" eval="False"></field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="customer_due">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 align="center">Customer Due</h2>
+                        <h5 align="center">Customer: <t t-esc="data['customer_name']" /></h5>
+                        <br />
+                        <div>
+                            <table class="table" width='100%'>
+                                <thead>
+                                    <tr>
+                                        <th style='border: 1px solid black;text-align:center;'>Date</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Invoice</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Due Date</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Tax Excluded</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Total</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Payment Status</th>
+                                        <th style='border: 1px solid black;text-align:center;'>Amount Due</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_debit" t-value="0" />
+                                    <t t-set="total_credit" t-value="0" />
+                                    <t t-foreach="data['lines']" t-as="line">
+                                        <tr>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['date']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['invoice_name']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['invoice_date_due']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['tax_excluded']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['total']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['payment_status']" />
+                                            </td>
+                                            <td style='border: 1px solid black;text-align:center;'>
+                                                <t t-esc="line['amount_due']" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <!-- <tfoot>
+                                    <tr>
+                                        <td style='border: 1px solid black;text-align:center;' colspan='3'>
+                                            Total
+                                        </td>
+                                        <td style='border: 1px solid black;text-align:center;'>
+                                            <t t-esc="total_debit" />
+                                        </td>
+                                        <td style='border: 1px solid black;text-align:center;'>
+                                            <t t-esc="total_credit" />
+                                        </td>
+                                    </tr>
+                                </tfoot> -->
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

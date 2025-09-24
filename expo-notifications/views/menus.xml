@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="action_expo_notifications_devices">
+        <field name="name">Expo Devices</field>
+        <field name="res_model">expo.device</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_expo_notifications_message">
+        <field name="name">Messages</field>
+        <field name="res_model">expo.message</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="root_expo_notifications_menu"
+        parent="base.menu_custom"
+        name="Expo Notifications" sequence="10"
+    />
+
+    <menuitem id="root_expo_devices_menu"
+        name="Devices" sequence="1"
+        parent="root_expo_notifications_menu"
+        action="action_expo_notifications_devices" />
+
+    <menuitem id="root_expo_messages_menu"
+        name="Messages" sequence="1"
+        parent="root_expo_notifications_menu"
+        action="action_expo_notifications_message" />
+</odoo>

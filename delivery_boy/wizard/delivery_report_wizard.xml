@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="delivery_report_wizard_form" model="ir.ui.view">
+                <field name="name">Dispatch Register</field>
+                <field name="model">delivery_boy.delivery_report</field>
+                <field name="arch" type="xml">
+                        <form>
+                                <group>
+                                        <field name="delivery_person" />
+                                        <field name='start_date' string="Start Date" />
+                                        <field name='end_date' string="End Date" />
+                                </group>
+                                <footer>
+                                        <button type="object" name="print_report" string="Print"
+                                                class="btn-primary" />
+                                        <button special="cancel" string="Cancel" class="btn-primary" />
+                                </footer>
+                        </form>
+                </field>
+        </record>
+
+
+        <record id="action_wizard_delivery_report" model="ir.actions.act_window">
+                <field name="name">Report Wizard</field>
+                <field name="res_model">delivery_boy.delivery_report</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="delivery_report_wizard_form" />
+                <field name="target">new</field>
+        </record>
+        <menuitem id="menu_delivery_boy_report"
+                name="Reports"
+                parent="delivery_boy.root_delivery_boy_menu"
+                sequence="10"
+        />
+        <menuitem
+                name="Delivery Report"
+                id="menu_delivery_report"
+                parent='menu_delivery_boy_report'
+                action='action_wizard_delivery_report'
+        />
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="attendance_filter_view_form" model="ir.ui.view">
+        <field name="name">attendance.filter.form</field>
+        <field name="model">attendance.filter</field>
+        <field name="arch" type="xml">
+            <form string="Search Criteria">
+                <sheet>
+                    <h2>Attendance Report</h2>
+                    <separator />
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="employee_ids" widget="many2many_tags" />
+                            <field name="from_date" widget="daterange" options="{'related_end_date': 'to_date'}" />
+                            <field name="to_date" widget="daterange" options="{'related_start_date': 'from_date'}" />
+                        </group>
+                    </group>
+                    <separator />
+
+                    <div>
+                        <button name="action_print_report" type="object" string="Print"
+                            class="btn-primary" />
+                    </div>
+                    <!-- <div>
+                        <button name="get_excel_report" type="object" string="Print Excel"
+                        class="btn-primary" />
+                    </div> -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="attendance_filter_form" model="ir.actions.act_window">
+        <field name="name">attendance.report.filters</field>
+        <field name="res_model">attendance.filter</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="attendance_report.attendance_filter_view_form" />
+    </record>
+
+
+    <menuitem id="model_name_menu" name="Report" action="hr_attendance.hr_attendance_reporting" groups="hr_attendance.group_hr_attendance_officer" parent="hr_attendance.menu_hr_attendance_reporting" sequence="1" />
+
+    <menuitem id="menu_attendance_download_report" parent="hr_attendance.menu_hr_attendance_reporting" name="Download Report" groups="hr_attendance.group_hr_attendance_officer" action="attendance_filter_form" sequence="2" />
+</odoo>

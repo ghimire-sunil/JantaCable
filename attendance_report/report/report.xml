@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_record_attendance_department" model="ir.actions.report">
+        <field name="name">Attendance</field>
+        <field name="model">attendance.filter</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">attendance_report.filter_records</field>
+        <field name="report_file">attendance_report.filter_records</field>
+        <field name="print_report_name">(object.get_file_name())</field>
+        <field name="binding_model_id" eval="False"></field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

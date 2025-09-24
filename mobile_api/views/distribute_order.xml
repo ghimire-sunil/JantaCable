@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- Action -->
+    <record id="action_distributor_order" model="ir.actions.act_window">
+        <field name="name">Distributor Orders</field>
+        <field name="res_model">distributor.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first distributor order.
+            </p>
+        </field>
+    </record>
+
+    <!-- list View -->
+    <record id="view_distributor_order_list" model="ir.ui.view">
+        <field name="name">distributor.order.list</field>
+        <field name="model">distributor.order</field>
+        <field name="arch" type="xml">
+            <list string="Distributor Orders">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="distributor_id" />
+                <field name="order_date" />
+                <field name="crm_team_id" />
+                <field name="state" widget="badge"
+                    decoration-info="state == 'pending'"
+                    decoration-success="state == 'completed'"
+                    decoration-danger="state == 'cancelled'" />
+                <!-- <field name="delivery_status" /> -->
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+
+    <record id="distributor_order_view_search" model="ir.ui.view">
+        <field name="name">distributor.order.view.search</field>
+        <field name="model">distributor.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="distributor_id" />
+                <field name="order_date" />
+                <field name="state" />
+
+                <!-- State Filters -->
+                <filter string="Draft" name="filter_draft" domain="[('state', '=', 'draft')]" />
+                <filter string="Pending" name="filter_pending" domain="[('state', '=', 'pending')]" />
+                <filter string="Completed" name="filter_completed"
+                    domain="[('state', '=', 'completed')]" />
+                <filter string="Cancelled" name="filter_cancelled"
+                    domain="[('state', '=', 'cancelled')]" />
+
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_by_partner"
+                        context="{'group_by': 'partner_id'}" />
+                    <filter string="Distributor" name="group_by_distributor"
+                        context="{'group_by': 'distributor_id'}" />
+                    <filter string="Order Date" name="group_by_order_date"
+                        context="{'group_by': 'order_date'}" />
+                    <filter string="State" name="group_by_state" context="{'group_by': 'state'}" />
+                    <filter string="Salesperson" name="group_by_state"
+                        context="{'group_by': 'user_id'}" />
+                    <filter string="Sales Teams" name="group_by_team"
+                        context="{'group_by': 'crm_team_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_distributor_order_form" model="ir.ui.view">
+        <field name="name">distributor.order.form</field>
+        <field name="model">distributor.order</field>
+        <field name="arch" type="xml">
+            <form string="Distributor Order">
+                <header>
+                    <button string="Confirm" name="action_confirm" type="object"
+                        invisible="state != 'draft'" />
+                    <button string="Cancel" name="action_cancel" type="object"
+                        invisible="state in ['cancelled','completed']"
+                        class="oe_highlight" />
+                    <button string="Reset To Draft" name="action_draft" type="object"
+                        invisible="state != 'cancelled'"
+                    />
+                    <button string="Assign" name="action_assign" type="object"
+                        invisible="state != 'pending'"
+                    />
+                    <button string="Mark as Complete" name='action_complete' type="object"
+                        invisible="state != 'assigned'" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" />
+                            <field name="partner_id" readonly="state != 'draft'" />
+                            <field name="distributor_id" readonly="state not in ['draft','pending']" />
+                        </group>
+                        <group>
+                            <field name="order_date" readonly="state != 'draft'" />
+                            <field name="delivery_status" readonly="1" />
+                            <field name="user_id" readonly="state != 'draft'" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="order_line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id" domain="[('sale_ok','=',True)]" />
+                                    <field name="uom_id" />
+                                    <field name="qty" />
+                                    <field name="delivered_qty" />
+                                    <!-- <field name="delivery_status" readonly="1" /> -->
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <!-- Menus -->
+    <menuitem id="menu_distributor_root" parent="sale.sale_menu_root" name="Distributor"
+        sequence="10" />
+    <menuitem id="menu_distributor_orders" name="Orders" parent="menu_distributor_root"
+        action="action_distributor_order" sequence="10" />
+</odoo>

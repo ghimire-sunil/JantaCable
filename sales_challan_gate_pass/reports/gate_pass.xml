@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_gate_pass" model="ir.actions.report">
+       <field name="name">Gate Pass</field>
+       <field name="model">stock.picking</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">sales_challan_gate_pass.gate_pass_report</field>
+       <field name="report_file">sales_challan_gate_pass.gate_pass_report</field>
+       <field name="print_report_name">'Gate Pass - %s' % (object.name)</field>
+       <field name="binding_model_id" ref="stock.model_stock_picking"/>
+       <field name="binding_type">report</field>
+   </record>
+
+   <template id="gate_pass_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sales_challan_gate_pass.external_layout_gate_pass">
+                    <div class="page border">
+                        <!-- <t t-set="print_date" t-value="o._get_current_date_time()"/> -->
+                        <div class="row border-bottom">
+                            <div class="col 6" style="margin-left:3px;">
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Party Name</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Address</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.contact_address_complete"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>PAN</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-field="o.partner_id.vat"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-5'>
+                                        <strong>Contact No.</strong>
+                                    </div>
+                                    <div class='col-5'>
+                                        <span t-out="o.partner_id.mobile"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col 6" style="margin-left:80px; text-align:left;">
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>DOC No.</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>DOC Date</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.date_done"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>Destination</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.sale_id.destination_location"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class='col-4'>
+                                        <strong>Ref DOC No.</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="o.sale_id.name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table" name="stock_line_table">
+                            <thead>
+                                <tr>
+                                    <th name="th_sno" style="width: 4%" class="text-center"><strong style="margin-left:3px;">S.No.</strong></th>
+                                    <th name="th_description" style="width: 85%" class="text-start"><strong>PARTICULARS</strong></th>
+                                    <th name="th_unit" class="text-start"><strong>Unit</strong></th>
+                                    <th name="th_quantity" class="text-center"><strong>Quantity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody class="stock_line_tbody">
+                                <t t-set="quantity_total" t-value="0"/>
+                                <t t-set="symbol_number" t-value="0"/>
+                                <t t-set="lines" t-value="o.move_ids.sorted(key=lambda l: (-l.id), reverse=True)"/>
+
+                                <t t-foreach="lines" t-as="line">
+                                    <t t-set="quantity_total" t-value="quantity_total + line.quantity"/>
+                                    <tr>
+                                        <t t-set="symbol_number" t-value="symbol_number + 1"/>
+                                        <td name="td_sno" class="text-center">
+                                            <span class="text-nowrap" t-out="symbol_number">1</span>
+                                        </td>
+                                        <td name="td_description"><span t-field="line.product_id.name" t-options="{'widget': 'text'}">Bacon Burger</span></td>
+                                        <td name="td_unit" class="text-center">
+                                            <span t-field="line.product_uom">units</span>
+                                        </td>
+                                        <td name="td_quantity" class="text-center">
+                                            <span t-field="line.quantity">3.00</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr class="border-top">
+                                    <td />
+                                    <td class="text-end"> <strong>Total:</strong> </td>
+                                    <td />
+                                    <td class="text-center"> <strong t-out="quantity_total"/> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class='row'>
+                            <div class='col-6' style="margin-left:3px;">
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Vehicle No.</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.license_plate"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Driver Name</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.driver_id.name"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>License. No.</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.driver_id.license_number"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Transpoter CN No.</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.transpoter_cn"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-6'>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Vehicle In Time</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.vehicle_in_time"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Vehicle Out Time</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.vehicle_out_time"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Driver Contact No.</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.driver_id.phone"/>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <span>Transport Inv.no:</span>
+                                    </div>
+                                    <div class='col-6'>
+                                        <span t-field="o.sale_id.fleet_id.transport_inv_no"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row border-bottom' style="margin-left:3px;">
+                            <div class='col-4'>
+                                <span style="font-style: italic; font-weight: bolder;  text-decoration-line: underline;">Terms &amp; Condition</span>
+                            </div>
+                            <div class='col-8'>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class='col mt-5' style="padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                </div>
+                            </div>
+                            <div class='col mt-5' style="padding-left: 15px; padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                </div>
+                            </div>
+                            <div class='col mt-5' style="padding-left: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong style="font-size: 15px;">For: Brij Himalayan Spring Pvt. Ltd.</strong>
+                                </div>
+                            </div>
+                        </div>
+                         <div id="prepare_info" class="row">
+                            <div class='col' style="padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong>Prepared By</strong>
+                                </div>
+                            </div>
+                            <div class='col' style="padding-left: 15px; padding-right: 15px;">
+                                <div class='text-center p-2'>
+                                </div>
+                            </div>
+                            <div class='col' style="padding-left: 15px;">
+                                <div class='text-center p-2'>
+                                    <strong>Authorized By</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span>E. &amp; O.E</span>
+                </t>
+            </t>
+        </t>
+   </template>
+
+
+
+    <template id="external_layout_gate_pass">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="sales_challan_gate_pass.external_layout_standard_gate"><t t-out="0"/></t>
+
+    </template>
+
+    <template id="external_layout_standard_gate">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class='row'>
+                    <div class='col-6' style="border-right: 2px solid;">
+                        <div class='row mt-5'>
+                            <div class='col-4'/>
+                            <div class='col-10 mt-3'>
+                                <div class='row'>
+                                    <span style="font-weight: bolder; font-size:18px;" t-field="company.name"/>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-2'>
+                                        <strong>PAN</strong>
+                                    </div>
+                                    <div class='col-1'>
+                                        <strong>:</strong>
+                                    </div>
+                                    <div class='col-8'>
+                                        <span t-field="company.vat"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-6' style='margin-left: 8px;'>
+                        <!-- <div class='row'>
+                            <div class='col-2'>
+                                <strong>Branch</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+
+                            </div>
+                        </div> -->
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Address</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <t t-set="address" t-value="company.street +' '+ company.city +' Nepal'"/>
+                                <strong t-out='address'/>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Phone</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <t t-set="phone" t-value="company.phone+', '+ company.mobile"/>
+                                <strong t-out='phone'/>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-2'>
+                                <strong>Email</strong>
+                            </div>
+                            <div class='col-1'>
+                                <strong>:</strong>
+                            </div>
+                            <div class='col-10'>
+                                <strong t-field='company.email'/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class='mt-2 text-center'><h3>Gate Pass - (Factory)</h3></div>
+        </div>
+        <t t-set="layout_background_url"
+           t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
+                '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''" />
+        <div t-attf-class="article o_report_layout_standard o_table_standard o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+             t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!-- <t t-call="web.address_layout"/> -->
+            <!-- <h2 t-out="layout_document_title"/> -->
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+            <div class="border-top pt-2">
+                <!-- <div class="flex-grow-1 text-start me-2" t-field="company.report_footer"/> -->
+                <div>
+                    <div t-if="report_type == 'pdf' and display_name_in_footer" t-out="o.name">(document name)</div>
+                    <div t-if="report_type == 'pdf'">
+                        <t t-set='current_time' t-value='o._get_current_date_time()'/>
+                        <div class='row'>
+                            <div class='col text-center'>
+                                Printed on <span t-out='current_time'/>
+                            </div>
+                            <div class='col text-center'>
+                                Page <span class="page"/> of <span class="topage"/>
+                            </div>
+                            <div class='col text-center'>
+                                Printed by <span t-field='o.env.user.name'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

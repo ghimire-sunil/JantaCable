@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View sale.person.report View List -->
+    <record id="view_sale_person_report_list" model="ir.ui.view">
+        <field name="name">view.sale.person.report.list</field>
+        <field name="model">sale.persons.report</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="start_latitude"/>
+                <field name="start_longitude"/>
+                <field name="end_latitude"/>
+                <field name="end_longitude"/>
+                <button string="View in Map" name="button_action_map_view" type="object" class="oe_highlight"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- View sale.person.report form -->
+    <record id="view_sale_person_report_form" model="ir.ui.view">
+        <field name="name">view.sale.person.report.form</field>
+        <field name="model">sale.persons.report</field>
+        <field name="arch" type="xml">
+            <form string="Sale Person Report">
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                        <field name="partner_id"/>
+                        <field name="start_latitude"/>
+                        <field name="start_longitude"/>
+                        <field name="end_latitude"/>
+                        <field name="end_longitude"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <!-- Action sale.person.report -->
+    <record id="action_sale_person_report" model="ir.actions.act_window">
+        <field name="name">Sale Person Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.persons.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_reporting_sales_person_tracking" name="SalesPerson Tracking" action="action_sale_person_report" sequence="10" parent="sale.menu_sale_report"/>
+
+
+</odoo>

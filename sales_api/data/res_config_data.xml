@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="user_signup_reset_password" model="res.config.settings">
+        <field name="auth_signup_reset_password" eval="True"/>
+        <field name="auth_signup_uninvited">b2c</field>
+    </record>
+    <function model="res.config.settings" name="execute">
+        <value model="res.config.settings"
+               search="[('id', '=', ref('user_signup_reset_password'))]"/>
+    </function>
+
+    <record id="res_config_settings_signup_reset_password" model="ir.ui.view">
+        <field name="name">res.config.settings.signup.reset.password</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="auth_signup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+	    <field name="auth_signup_reset_password" position="attributes">
+	        <attribute name="readonly">True</attribute>
+	    </field>
+        </field>
+    </record>
+    <!--record id="res_config_settings_signup_uninvited" model="ir.ui.view">
+        <field name="name">res.config.settings.signup.uninvited</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+	    <field name="auth_signup_uninvited" position="attributes">
+	        <attribute name="readonly">True</attribute>
+	    </field>
+        </field>
+    </record-->
+
+</odoo>
+
+

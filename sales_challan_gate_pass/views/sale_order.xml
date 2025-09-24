@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sales_challan_form" model="ir.ui.view">
+        <field name="name">view.sale.challan.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//header" position="inside">
+                <button name="print_sales_challan" string="Print Sales Challan" type="object" class="oe_highlight" groups="base.group_user"/>
+            </xpath>
+
+            <xpath expr="//page[@name='other_information']" position="inside">
+                <group string='Amount Details'>
+                    <field name='freight_amount'/>
+                    <field name='advance_amount'/>
+                    <field name='mls_number'/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

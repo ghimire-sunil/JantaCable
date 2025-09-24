@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="account_report_filter_sales_person.AccountPartnerLedgerSalesFilter" t-inherit="account_reports.AccountReportFiltersCustomizable">
+        <xpath expr="//div[@id='filter_date']" position="after">
+            <t t-if="'sales_person_id' in controller.options">
+                <div>
+                    <t t-call="account_report_filter_sales_person.AccountReportFilterSalesPersonId"/>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="account_report_filter_sales_person.AccountReportFilterSalesPersonId">
+        <Dropdown>
+            <button class="btn btn-secondary">
+                <i class="fa fa-users me-1"/>
+                    Sales Person
+                <i/>
+            </button>
+
+            <t t-set-slot="content">
+                <t t-if="'sales_person_id' in controller.options">
+                    <t t-foreach="controller.options.sales_person_id" t-as="SalesPersonItem" t-key="SalesPersonItem_index">
+                        <DropdownItem closingMode="'none'" class="{ selected: SalesPersonItem.selected }" onSelected="() => this.filterSalePersonClick({ optionKey: SalesPersonItem})" t-out="SalesPersonItem.display_name" />
+                    </t>
+                </t>
+            </t>
+        </Dropdown>
+    </t>
+
+</templates>

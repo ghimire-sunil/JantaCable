@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_gate_pass_print_view" model="ir.ui.view">
+        <field name="name">stock.picking.gate.pass.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//header" position="inside">
+                <button name="print_gate_pass" string="Print Gate Pass" type="object" class="oe_highlight" groups="base.group_user"/>
+            </xpath>
+            <xpath expr="//page[@name='extra']" position="inside">
+                <group string='Vehicle Time Details'>
+                    <field name='vehicle_in_time'/>
+                    <field name='vehicle_out_time'/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

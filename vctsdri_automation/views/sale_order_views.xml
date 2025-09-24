@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View sale.order form -->
+    <record id="view_stock_picking_form" model="ir.ui.view">
+        <field name="name">view.sale.order.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_post_to_vcts" invisible="consignment_number" string="Post to VCTS" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_vcts_lock" invisible="not consignment_number or vcts_is_lock" string="Lock Consignment" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_start_consignments" invisible="not consignment_number or not vcts_is_lock or vcts_status == 'ongoing'" string="Start Vehicle" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_print_document" invisible='vcts_status != "ongoing" and not consignment_document' string="Print Document" type="object" class="oe_highlight" groups="base.group_user"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="vcts_information" string="VCTS">
+                    <group >
+                        <group >
+                            <field name="vcts_type" />
+                            <field name="document_number" />
+                            <field name="document_date"/>
+                            <field name="departure_district" options='{"no_create_edit":true,"no_create":true}'/>
+                            <field name="departure_location" />
+                            <field name="destination_district" options='{"no_create_edit":true,"no_create":true}'/>
+                            <field name="destination_location" />
+                            <field name="departure_date" options='{"min_date":"today"}'/>
+                            <field name="consignment_number" readonly="True"/>
+                        </group>
+                        <group >
+                            <field name="goods_nature" />
+                            <field name="package_unit" />
+                            <field name="amount_with_out_vat" />
+                            <field name="fleet_id" options='{"no_create_edit":true,"no_create":true}' invisible="vcts_type =='others'"/>
+                            <field name="responsible_person_id" options='{"no_create_edit":true,"no_create":true}' invisible="vcts_type =='vehicle'"/>
+                            <field name="plain_note" />
+                            <field name="vcts_is_lock" />
+                            <field name="vcts_status" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="consignment_document" widget="pdf_viewer" readonly="True"/>
+                    </group>
+                </page>
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

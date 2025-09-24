@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_resignation_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.resignation_approval_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- REsignation Template -->
+    <template id="resignation_approval_temp" name="custom_payment">
+        <div>
+            <span>Dear <t t-out="doc.employee_id.name"/>,</span>
+        </div>
+
+        <div>
+            <p>With reference to your resignation dated ......., you are supposed to serve ..... days as notice period.
+            Your last working day in Kedia Organisation will be ...........</p>
+        </div>
+        <div>
+            <p>During this period,</p>
+            <p>1. You have to work as usual with complete diligence and commitment and ensure a smooth
+            handover to the identified person by Department Head.</p>
+            <p>2. You won’t be able to avail any paid leaves during this period. Any emergency leaves due to
+            medical exigencies can be granted but the same will be adjusted from accumulated leaves after
+            providing doctor prescribed certificate. For leaves beyond medical exigencies, those leaves would
+            be considered leave without pay and the notice period will get extended accordingly.</p>
+            <p>3. It is needless to mention, you shall continue to abide by your confidentiality obligations as per the
+            terms of your employment with reference to all information, documents which come in your
+            possession. You will not, without written authorization from the Company, directly or indirectly,
+            disclose to any person, firm, association or use for your own benefit or gain, any confidential
+            information of Company and its clients. Failure to abide by this clause shall entitle the Company
+            to withhold your relieving letter and all other documents regarding your employment.</p>
+        </div>
+
+        <div>
+            <p>
+            Please find the attached Exit Clearance Forms which you need to fill properly and process for your
+            clearances:
+            </p>
+        </div>
+
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <th class="fw-bold text-center">No.</th>
+                    <th class="fw-bold text-center">Department</th>
+                    <th class="fw-bold text-center">Detail</th>
+                    <th class="fw-bold text-center">Clearance Process</th>
+                </tr>
+
+                <tr>
+                    <td class="p-1">1</td>
+                    <td class="p-1">Exit Employee</td>
+                    <td class="p-1">Handover</td>
+                    <td class="p-1" rowspan="3">Within Team</td>
+                </tr>
+                <tr>
+                    <td class="p-1">2</td>
+                    <td class="p-1">New Employee</td>
+                    <td class="p-1">Handover of Work</td>
+                </tr>
+                <tr>
+                    <td class="p-1">3</td>
+                    <td class="p-1">HOD</td>
+                    <td class="p-1">Handover of Work</td>
+                </tr>
+                <tr>
+                    <td class="p-1">4</td>
+                    <td class="p-1">IT</td>
+                    <td class="p-1">IT Assets</td>
+                    <td class="p-1">At HO</td>
+                </tr>
+                <tr>
+                    <td class="p-1">5</td>
+                    <td class="p-1">Admin</td>
+                    <td class="p-1">Drawer Key /Handset/Visiting Cards</td>
+                    <td class="p-1">At HO</td>
+                </tr>
+                <tr>
+                    <td class="p-1">6</td>
+                    <td class="p-1">HR</td>
+                    <td class="p-1">ID Card/ other Recovery</td>
+                    <td class="p-1">At HO</td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <p>Delay in submitting the forms to HR Department will automatically delay the F and F process. The F and F
+            settlement might take up to 45 days depending on the situation.</p>
+        </div>
+        <div>
+            <p>Kindly acknowledge the mail and share the below mentioned details with us for the F and F processing:</p>
+        </div>
+
+        <div>
+            <p>Personal Email id / telephone number</p>
+            <p>Correspondence address</p>
+        </div>
+
+        <div>
+            <p>Wish you all the best for your future assignments.</p>
+            <p>Best Regards,</p>
+        </div>
+        <div>
+            <p>Human Resources Department</p>
+            <p>Kedia Organisation</p>
+        </div>
+        <div>
+            <p>I have read, understood, and agree to comply with the terms mentioned on the letter, being aware of my
+            obligations and responsibilities in regard to safeguarding company’s image and also agree to demonstrate
+            appropriate and professional conduct in all areas, both inside and outside the organization.</p>
+        </div>
+        <div>
+            <p>Staff Name:</p>
+            <p>Designation:</p>
+            <p>Signature:</p>
+            <p>Date:</p>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_resignation_paperformat" model="report.paperformat">
+        <field name="name">Resignation</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_resignation_action" model="ir.actions.report">
+        <field name="name">Resignation</field>
+        <field name="model">hr.departure.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_resignation_template</field>
+        <field name="report_file">custom_approval_form.common_resignation_template</field>
+        <field name="binding_model_id" ref="custom_approval_form.model_hr_departure_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_resignation_paperformat" />
+    </record>
+
+</odoo>

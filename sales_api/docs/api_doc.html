@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module controllers.main</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="controllers.html"><font color="#ffffff">controllers</font></a>.main</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/mnt/extra-addons/sales_api/controllers/main.py">/mnt/extra-addons/sales_api/controllers/main.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="odoo.osv.expression.html">odoo.osv.expression</a><br>
+</td><td width="25%" valign=top><a href="odoo.http.html">odoo.http</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="odoo.http.html#Controller">odoo.http.Controller</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="controllers.main.html#MobileSaleApi">MobileSaleApi</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MobileSaleApi">class <strong>MobileSaleApi</strong></a>(<a href="odoo.http.html#Controller">odoo.http.Controller</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>API&nbsp;for&nbsp;Odoo&nbsp;mobile&nbsp;Sales&nbsp;App<br>
+For&nbsp;API&nbsp;calls&nbsp;that&nbsp;require&nbsp;session_id&nbsp;cookie,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;send&nbsp;a&nbsp;JSONRPC&nbsp;request:&nbsp;&lt;baseURI&gt;/web/session/authenticate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;JSON&nbsp;body:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"jsonrpc":&nbsp;"2.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"params":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"db":&nbsp;&lt;db&gt;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"login":&nbsp;&lt;user_email&gt;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password":&nbsp;&lt;password&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="controllers.main.html#MobileSaleApi">MobileSaleApi</a></dd>
+<dd><a href="odoo.http.html#Controller">odoo.http.Controller</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MobileSaleApi-categ_product_read"><strong>categ_product_read</strong></a>(self, id, **kwargs)</dt><dd><tt>:API&nbsp;[GET]:&nbsp;/api/product.category/&lt;int:id&gt;/products<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Get&nbsp;all&nbsp;the&nbsp;products&nbsp;that&nbsp;belong&nbsp;to&nbsp;the&nbsp;product&nbsp;category&nbsp;(and&nbsp;its&nbsp;child&nbsp;categories)<br>
+&nbsp;<br>
+PARAMS:<br>
+&lt;int:id&gt;:&nbsp;Product&nbsp;Category&nbsp;ID<br>
+fields&nbsp;[Optional]&nbsp;=&nbsp;list&nbsp;of&nbsp;fields&nbsp;of&nbsp;the&nbsp;model&nbsp;being&nbsp;queried<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;`fields`&nbsp;parameter&nbsp;is&nbsp;not&nbsp;passed,&nbsp;all&nbsp;the&nbsp;fields&nbsp;(key,&nbsp;value&nbsp;pair)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;the&nbsp;model&nbsp;is&nbsp;returned<br>
+:order:&nbsp;sort&nbsp;records&nbsp;by&nbsp;a&nbsp;field&nbsp;name,&nbsp;ascending&nbsp;(asc)&nbsp;order&nbsp;by&nbsp;default,&nbsp;desc&nbsp;for&nbsp;descending&nbsp;order<br>
+:limit:&nbsp;limit&nbsp;the&nbsp;number&nbsp;of&nbsp;records&nbsp;returned<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/product.category/1/products<br>
+-&nbsp;&lt;baseURI&gt;/api/product.template/1/products?fields=['name','standard_price']<br>
+&nbsp;<br>
+RETURNS:&nbsp;JSON&nbsp;response&nbsp;of&nbsp;all&nbsp;the&nbsp;products&nbsp;that&nbsp;belong&nbsp;to&nbsp;the&nbsp;product&nbsp;category&nbsp;(and&nbsp;its&nbsp;child&nbsp;categories)</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-create"><strong>create</strong></a>(self, model, **kwargs)</dt><dd><tt>:API&nbsp;[POST]:&nbsp;/api/create/&lt;string:model&gt;?vals={}<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Create&nbsp;a&nbsp;record&nbsp;for&nbsp;a&nbsp;model,&nbsp;while&nbsp;passing&nbsp;the&nbsp;values<br>
+&nbsp;<br>
+PARAMS:<br>
+:&lt;string:model&gt;:&nbsp;Odoo&nbsp;model,&nbsp;e.&nbsp;g;&nbsp;res.partner,&nbsp;product.template,&nbsp;product.category,&nbsp;res.users,&nbsp;etc.<br>
+:vals&nbsp;[Required]&nbsp;=&nbsp;list&nbsp;of&nbsp;fields&nbsp;with&nbsp;values&nbsp;to&nbsp;create&nbsp;a&nbsp;record<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;`vals`&nbsp;parameter&nbsp;is&nbsp;not&nbsp;populated,&nbsp;no&nbsp;new&nbsp;record&nbsp;will&nbsp;be&nbsp;created.<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/create/res.partner?vals={'name':'testuser'}<br>
+-&nbsp;&lt;baseURI&gt;/api/create/sale.order?vals={'partner_id':&lt;value&gt;,'user_id':&lt;value&gt;,'order_line':[(0,&nbsp;0,&nbsp;{'product_uom_qty':&lt;value&gt;,'name':&lt;value&gt;,'price_unit':&lt;value&gt;,'product_id':&lt;value&gt;})]}<br>
+RETURNS:&nbsp;ID&nbsp;of&nbsp;the&nbsp;record&nbsp;created</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-post_review"><strong>post_comment</strong></a>(self, model, id, **kw)</dt><dd><tt>:API&nbsp;[POST]:&nbsp;/api/&lt;string:model&gt;/&lt;int:id&gt;/post_comment<br>
+PARAMS:<br>
+-&nbsp;JSON&nbsp;BODY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"jsonrpc":&nbsp;"2.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"params":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"message":&nbsp;&lt;message&gt;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"message_type":&nbsp;"comment",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"subtype":&nbsp;"mt_comment",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rating_value":&nbsp;&lt;int:&nbsp;normally&nbsp;1(lowest)&nbsp;to&nbsp;5(highest)&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+PURPOSE:&nbsp;Post&nbsp;comment&nbsp;on&nbsp;a&nbsp;product<br>
+&nbsp;<br>
+RETURNS:<br>
+-&nbsp;201&nbsp;if&nbsp;comment&nbsp;posting&nbsp;is&nbsp;successful<br>
+-&nbsp;400&nbsp;if&nbsp;comment&nbsp;is&nbsp;not&nbsp;created&nbsp;due&nbsp;to&nbsp;insufficient&nbsp;parameters<br>
+-&nbsp;error&nbsp;(with&nbsp;response&nbsp;200)&nbsp;if&nbsp;error&nbsp;occured&nbsp;during&nbsp;comment&nbsp;creation</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-read"><strong>read</strong></a>(self, model, id, **kwargs)</dt><dd><tt>API&nbsp;[GET]:&nbsp;/api/&lt;string:model&gt;/&lt;int:id&gt;<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Get&nbsp;a&nbsp;record,&nbsp;that&nbsp;matches&nbsp;ID,&nbsp;of&nbsp;the&nbsp;model&nbsp;being&nbsp;queried<br>
+&nbsp;<br>
+PARAMS:<br>
+:&lt;string:model&gt;:&nbsp;Odoo&nbsp;model,&nbsp;e.&nbsp;g;&nbsp;res.partner,&nbsp;product.template,&nbsp;product.category,&nbsp;res.users,&nbsp;etc.<br>
+:&lt;int:id&gt;:&nbsp;Record&nbsp;ID<br>
+:fields&nbsp;[Optional]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;of&nbsp;the&nbsp;model&nbsp;being&nbsp;queried<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;`fields`&nbsp;parameter&nbsp;is&nbsp;not&nbsp;passed,&nbsp;all&nbsp;the&nbsp;fields&nbsp;(key,&nbsp;value&nbsp;pair)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;the&nbsp;model&nbsp;is&nbsp;returned<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/product.category/1<br>
+-&nbsp;&lt;baseURI&gt;/api/product.template/1?fields=['name','standard_price']<br>
+&nbsp;<br>
+RETURNS:&nbsp;JSON&nbsp;response&nbsp;of&nbsp;the&nbsp;record</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-search_read"><strong>search_read</strong></a>(self, model, latest=False, **kwargs)</dt><dd><tt>_API&nbsp;[GET]_:&nbsp;/api/&lt;string:model&gt;<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Get&nbsp;all&nbsp;the&nbsp;records&nbsp;of&nbsp;a&nbsp;model<br>
+&nbsp;<br>
+PARAMS:<br>
+:&lt;string:model&gt;:&nbsp;Odoo&nbsp;model,&nbsp;e.&nbsp;g;&nbsp;res.partner,&nbsp;product.product,&nbsp;product.category,&nbsp;res.users,&nbsp;etc.<br>
+:fields&nbsp;[Optional]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;of&nbsp;the&nbsp;model&nbsp;being&nbsp;queried<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;`fields`&nbsp;parameter&nbsp;is&nbsp;not&nbsp;passed,&nbsp;all&nbsp;the&nbsp;fields&nbsp;(key,&nbsp;value&nbsp;pair)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;the&nbsp;model&nbsp;is&nbsp;returned<br>
+:order:&nbsp;sort&nbsp;records&nbsp;by&nbsp;a&nbsp;field&nbsp;name,&nbsp;ascending&nbsp;(asc)&nbsp;order&nbsp;by&nbsp;default,&nbsp;desc&nbsp;for&nbsp;descending&nbsp;order<br>
+:limit:&nbsp;limit&nbsp;the&nbsp;number&nbsp;of&nbsp;records&nbsp;returned<br>
+&nbsp;<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/product.category<br>
+-&nbsp;&lt;baseURI&gt;/api/product.template?fields=['name','standard_price']<br>
+#&nbsp;latest&nbsp;5&nbsp;products&nbsp;created&nbsp;on&nbsp;the&nbsp;system<br>
+-&nbsp;&lt;baseURI&gt;/api/product.product?order='id&nbsp;desc'&amp;limit=5<br>
+#&nbsp;Products&nbsp;sorted&nbsp;in&nbsp;ascending&nbsp;order&nbsp;by&nbsp;website&nbsp;price<br>
+-&nbsp;&lt;baseURI&gt;/api/product.category?order='website_price'<br>
+&nbsp;<br>
+RETURNS:&nbsp;JSON&nbsp;response&nbsp;of&nbsp;all&nbsp;the&nbsp;records&nbsp;of&nbsp;the&nbsp;model.</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-signup"><strong>signup</strong></a>(self, **values)</dt><dd><tt>:API&nbsp;[POST]:&nbsp;/api/signup<br>
+PARAMS:<br>
+-&nbsp;JSON&nbsp;BODY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"jsonrpc":&nbsp;"2.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"params":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;&lt;Name&gt;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"login":&nbsp;&lt;username&nbsp;/&nbsp;email&gt;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password":&nbsp;&lt;password&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+PURPOSE:&nbsp;Create&nbsp;a&nbsp;new&nbsp;user&nbsp;through&nbsp;API<br>
+&nbsp;<br>
+RETURNS:<br>
+-&nbsp;409&nbsp;if&nbsp;user&nbsp;already&nbsp;exists<br>
+-&nbsp;400&nbsp;if&nbsp;input&nbsp;fields(login,&nbsp;name&nbsp;and&nbsp;password)&nbsp;are&nbsp;not&nbsp;supplied&nbsp;properly<br>
+-&nbsp;200&nbsp;if&nbsp;user&nbsp;registration&nbsp;is&nbsp;successful</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-unlink"><strong>unlink</strong></a>(self, model, id)</dt><dd><tt>:API&nbsp;[DELETE]:&nbsp;/api/delete/&lt;string:model&gt;/&lt;int:id&gt;<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Deletes&nbsp;a&nbsp;record<br>
+&nbsp;<br>
+PARAMS:<br>
+:&lt;string:model&gt;:&nbsp;Odoo&nbsp;model,&nbsp;e.&nbsp;g;&nbsp;res.partner,&nbsp;product.template,&nbsp;product.category,&nbsp;res.users,&nbsp;etc.<br>
+:&lt;int:id&gt;:&nbsp;Record&nbsp;ID<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/delete/sale.order/1<br>
+RETURNS:&nbsp;True&nbsp;/&nbsp;False</tt></dd></dl>
+
+<dl><dt><a name="MobileSaleApi-write"><strong>write</strong></a>(self, model, id, **kwargs)</dt><dd><tt>:API&nbsp;[PUT]:&nbsp;/api/update/&lt;string:model&gt;/&lt;int:id&gt;?vals={}<br>
+PRE-REQUISITE:&nbsp;session_id&nbsp;cookie&nbsp;(through&nbsp;authentication)<br>
+PURPOSE:&nbsp;Update&nbsp;a&nbsp;record,&nbsp;with&nbsp;new&nbsp;values&nbsp;of&nbsp;the&nbsp;fields<br>
+&nbsp;<br>
+PARAMS:<br>
+:&lt;string:model&gt;:&nbsp;Odoo&nbsp;model,&nbsp;e.&nbsp;g;&nbsp;res.partner,&nbsp;product.template,&nbsp;product.category,&nbsp;res.users,&nbsp;etc.<br>
+:&lt;int:id&gt;:&nbsp;Record&nbsp;ID<br>
+:values&nbsp;[Required]&nbsp;=&nbsp;list&nbsp;of&nbsp;fields&nbsp;with&nbsp;new&nbsp;values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;`vals`&nbsp;parameter&nbsp;is&nbsp;not&nbsp;populated,&nbsp;no&nbsp;update&nbsp;will&nbsp;take&nbsp;place.<br>
+&nbsp;<br>
+EXAMPLES:<br>
+-&nbsp;&lt;baseURI&gt;/api/update/sale.order/1?vals={'name':'testuser'}<br>
+RETURNS:&nbsp;True&nbsp;/&nbsp;False</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="odoo.http.html#Controller">odoo.http.Controller</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>request</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>

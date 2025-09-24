@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+contact_route.access_delivery_route,access_delivery_route,contact_route.model_delivery_route,base.group_user,1,1,1,1
+contact_route.access_route_schedule,access_route_schedule,contact_route.model_delivery_route_schedule,base.group_user,1,1,1,1

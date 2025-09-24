@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_valuation_ondate_report" model="ir.ui.view">
+        <field name="name">stock.valuation.ondate.report</field>
+        <field name="model">stock.valuation.ondate.report</field>
+        <field name="arch" type="xml">
+            <form string="Valuation Report">
+                <group>
+                    <group>
+                        <field name="start_date" />
+                        <field name="only_summary" />
+                    </group>
+                    <group>
+                        <field name="end_date" />
+                    </group>
+
+                </group>
+                <group>
+                    <group string="Company">
+                        <field name="company_id" string="Company" required="1"
+                            options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            placeholder="All companies" />
+                    </group>
+                    <group string="Warehouses">
+                        <field name="warehouse_ids" widget="many2many_tags" required="1"
+                            string="Warehouses"
+                            options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            placeholder="All Warehouses" />
+                    </group>
+                </group>
+                <group>
+                    <group string="Location">
+                        <field name="location_id" string="Select Location" required="1"
+                            domain="[('usage','=','internal')]"
+                            options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            placeholder="All above Warehouses Locations" />
+                    </group>
+
+
+                </group>
+                <!-- <group> -->
+                <!-- <group string="Select Categories">
+                        <field name="filter_product_categ_ids"
+                            nolabel="1" placeholder="All Categories">
+                            <list string="Products Categories">
+                                <field name="name" />
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Select Product">
+                        <field name="filter_product_ids"
+                            nolabel="1" placeholder="All Product">
+                            <list string="Products">
+                                <field name="name" />
+                            </list>
+                        </field>
+                    </group> -->
+                <!-- <group string="Select Brand">
+                        <field name="filter_brand_ids"
+                            nolabel="1" placeholder="All Brands">
+                            <list string="Brand">
+                                <field name="name" />
+                            </list>
+                        </field>
+                    </group> -->
+                <notebook>
+                    <page string="Products Categories">
+                        <field name="filter_product_categ_ids"
+                            nolabel="1" placeholder="All Categories">
+                            <list string="Products Categories">
+                                <field name="name" />
+                            </list>
+                        </field>
+                    </page>
+                    <!-- <page string="Products">
+                        <field name="filter_product_ids"
+                            nolabel="1" placeholder="All Product">
+                            <list string="Products">
+                                <field name="name" />
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Brands">
+                        <field name="filter_brand_ids"
+                            nolabel="1" placeholder="All Brands">
+                            <list string="Brands">
+                                <field name="name"/>
+                            </list>
+                        </field>
+                    </page> -->
+                </notebook>
+                <!-- </group> -->
+                <footer>
+                    <button name="print_report" string="_PDF"
+                        type="object" class="oe_highlight" /> or <button name="print_xls_report"
+                        string="_XLS"
+                        type="object" class="oe_highlight" /> or <button string="Cancel"
+                        class="oe_link"
+                        special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_inventoryvaluation_report">
+        <field name="name">Stock Valuation Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.valuation.ondate.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_stock_valuation_ondate_report" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Stock Valuation Report"
+        parent="stock.menu_stock_root"
+        id="menu_inventoryvaluation_report"
+        action="action_inventoryvaluation_report"
+        sequence="147" />
+</odoo>

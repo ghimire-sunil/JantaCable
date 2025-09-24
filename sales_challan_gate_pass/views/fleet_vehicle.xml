@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View fleet.vehicle form -->
+    <record id="view_fleet_vehicle_form_inherit" model="ir.ui.view">
+        <field name="name">view.fleet.vehicle.form.inherit</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location']" position="after">
+                <field name='transpoter_cn'/>
+                <field name='transport_inv_no'/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <record id="action_payment_report" model="ir.actions.report">
+            <field name="name">Payment Reports</field>
+            <field name="model">delivery_boy.payment_report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">delivery_boy.payment_report</field>
+            <field name="report_file">delivery_boy.payment_report</field>
+            <field name="binding_model_id" eval="False"></field>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="payment_report">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 align="center">Payment Report </h2>
+                        <br />
+                        <p style="text-align:left;">
+                            <strong>From: </strong>
+                            <span t-out="data['form']['start_date']" />
+                            <span style="float:right;">
+                                <strong>To: </strong>
+                                <span t-out="data['form']['end_date']" />
+                            </span>
+                        </p>
+                        <p style="text-align:left;">
+                            <strong>Verified: </strong>
+                            <span t-out="extra['verified']" />
+                            <span style="float:right;">
+                                <strong>Pending: </strong>
+                                <span t-out="extra['pending']" />
+                            </span>
+                        </p>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ref</th>
+                                        <th>Payment
+                                            Date</th>
+                                        <th>Collected
+                                            By</th>
+                                        <th>Verified
+                                            By</th>
+                                        <th>
+                                            Amount</th>
+                                        <th>
+                                            Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach='docs' t-as='payment'>
+                                        <tr>
+                                            <td>
+                                                <span t-field="payment.name" />
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.payment_date" />
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.collected_by" />
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.verified_by" />
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.amount" />
+                                            </td>
+                                            <td>
+                                                <span t-field="payment.state" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+
+                                        <td colspan="3">
+
+                                        </td>
+                                        <th>
+                                            Total</th>
+                                        <th style="text-align:left;" colspan="2">
+                                            <t t-out="extra['total']" />
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

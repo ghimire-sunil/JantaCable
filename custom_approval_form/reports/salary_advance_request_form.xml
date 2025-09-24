@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_master_salary_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.salary_approval_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- Salary Approval Template -->
+    <template id="salary_approval_temp" name="custom_salary_approval">
+        <t t-set="main_company" t-value="doc.env['res.company'].browse(1)"/>
+        <div class="row">
+            <div class="col-6">
+                <img t-att-src="image_data_uri(doc.company_id.logo)" style="width:150px;height:80px"/>
+            </div>
+            <div class="col-6 text-end fw-bold" style="font-size:25px;">
+                <span>ADVANCE REQUEST FORM</span>
+            </div>
+        </div>
+        <div class="mt-4">
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-2" style="width:30%;">Amount Requested</td>
+                    <td class="p-2" colspan="3">Rs <t t-esc="doc.amount"/> In words,</td>
+                </tr>
+                <tr>
+                    <td class="p-2">Purpose</td>
+                    <td class="p-2" colspan="3">
+                        <div class="row">
+                            <div class="col-2">
+                                Please Tick
+                            </div>
+                            <div class="col-1">
+                                <div class="border" style="height:20px; width:20px;">
+                                
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                Official Purpose
+                            </div>
+                            <div class="col-1">
+                                <div class="border" style="height:20px; width:20px;">
+                                
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                Personal Purpose
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="p-2">Reason for Advance</td>
+                    <td class="p-2" colspan="3"><t t-esc="doc.reason"/></td>
+                </tr>
+                <tr>
+                    <td class="p-2 text-center bg-secondary" colspan="4">Requested By</td>
+                </tr>
+                <tr>
+                    <td class="p-2">Name</td>
+                    <td class="p-2"><t t-out="doc.request_owner_id.name"/></td>
+                    <td class="p-2">Designation</td>
+                    <td class="p-2"><t t-out="doc.request_owner_id.employee_id.job_id.name"/></td>
+                </tr>
+                <tr>
+                    <td class="p-2">Business Unit</td>
+                    <td class="p-2" colspan="3"></td>
+                </tr>
+                <tr>
+                    <td class="p-2">Sign</td>
+                    <td class="p-2"></td>
+                    <td class="p-2">Date</td>
+                    <td class="p-2" style="width:30%;"></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div class="row text-center" style="margin-top:100px;">
+            <div class="col-6">
+                ----------------------------------------------<br/>
+                Recommended By <br/>
+            </div>
+            <div class="col-6">
+                ----------------------------------------------<br/>
+                HR Department <br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Name:<br/>
+                Designation:<br/>
+                Date:
+            </div>
+            <div class="col-6">
+                Name:<br/>
+                Designation:<br/>
+                Date:
+            </div>
+        </div>
+
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-2 text-center bg-secondary" colspan="7">To be filled by Accounts Department</td>
+                </tr>
+                <tr>
+                    <td class="p-2 text-center bg-secondary" colspan="7">Previous Advance Records (if any)</td>
+                </tr>
+                <tr>
+                    <th class="p-2" style="width:20%;">Date</th>
+                    <th class="p-2">Amount Requested</th>
+                    <th class="p-2">Amount Received</th>
+                    <th class="p-2" style="width:30%;">Reasons</th>
+                    <th class="p-2">Installment Paid</th>
+                    <th class="p-2">Advance Status</th>
+                    <th class="p-2">Advance Cleared Date</th>
+                </tr>
+                <tr>
+                    <td class="p-2" style="height:25px;"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                </tr>
+                <tr>
+                    <td class="p-2" style="height:25px;"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                </tr>
+                <tr>
+                    <td class="p-2" style="height:25px;"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                    <td class="p-2"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="mt-2">
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-2" style="width:20%;">Amount Sanctioned</td>
+                    <td class="p-2"></td>
+                    <td class="p-2" style="width:50%;">in words,</td>
+                </tr>
+                <tr>
+                    <td class="p-2">Monthly installment</td>
+                    <td class="p-2"></td>
+                    <td class="p-2">in words,</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row text-center" style="margin-top:100px;">
+            <div class="col-6">
+                ---------------------------------------<br/>
+                Accounts Department<br/>
+            </div>
+            <div class="col-6">
+                ---------------------------------------<br/>
+                Line Director
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Name:<br/>
+                Designation:<br/>
+                Date:
+            </div>
+            <div class="col-6 text-center">
+                Approved By <br/>
+            </div>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_salary_advance_paperformat" model="report.paperformat">
+        <field name="name">Salary Advance Approvals</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_salary_approvals_action" model="ir.actions.report">
+        <field name="name">Salary Advance Approvals</field>
+        <field name="model">approval.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_master_salary_template</field>
+        <field name="report_file">custom_approval_form.common_master_salary_template</field>
+        <field name="binding_model_id" ref="approvals.model_approval_request"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_salary_advance_paperformat" />
+    </record>
+
+</odoo>

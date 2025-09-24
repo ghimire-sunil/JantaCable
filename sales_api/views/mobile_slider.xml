@@ -1,0 +1,100 @@
+<odoo>
+    <data>
+
+        <!--list view-->
+        <record id="tree_mobile_slider" model="ir.ui.view">
+            <field name="name">Slider Images list</field>
+            <field name="model">mobile.slider</field>
+            <field name="arch" type="xml">
+                <list string="Slider Images">
+                    <field name="name" />
+                    <field name="file_type" />
+                    <field name="create_date" />
+                    <field name="active" />
+                </list>
+            </field>
+        </record>
+
+        <!--form
+        view-->
+        <record id="form_mobile_slider" model="ir.ui.view">
+            <field name="name">Slider Images Form</field>
+            <field name="model">mobile.slider</field>
+            <field name="arch" type="xml">
+                <form string="Slider Images">
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button"
+                                icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options="{&quot;terminology&quot;: &quot;archive&quot;}" />
+                            </button>
+                        </div>
+                        <field name="image" widget="image" style="height: 300 px; width: 300px;" />
+
+                        <group name="group_top">
+                            <group name="group_left">
+                                <field name="name" />
+                                <field name="file_type" />
+                            </group>
+                            <group name="group_right">
+                                <field name="create_date" readonly="True" />
+                                <field name="description" />
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--kanban
+        view-->
+        <!-- <record id="kanban_mobile_slider" model="ir.ui.view">
+            <field name="name">Slider Images Kanban</field>
+            <field name="model">mobile.slider</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image" style="height: 100 px; width: 150px;">
+                                    <img
+                                        t-att-src="kanban_image('mobile.slider', 'image', record.id.value)" />
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+                                            <strong>Name : </strong>
+                                            <field name="name" />
+                                        </li>
+                                        <li>
+                                            <strong>File Type : </strong>
+                                            <field name="file_type" />
+                                        </li>
+                                        <li>
+                                            <strong>Created On : </strong>
+                                            <field name="create_date" />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+
+        <record id="action_mobile_slider" model="ir.actions.act_window">
+            <field name="name">Slider Images</field>
+            <field name="res_model">mobile.slider</field>
+            <field name="view_mode">kanban,list,form</field>
+        </record>
+
+        <menuitem id='menu_mobile_slider' name='Slider Images'
+            parent='website.menu_website_global_configuration'
+            action='sales_api.action_mobile_slider' />
+    </data>
+</odoo>

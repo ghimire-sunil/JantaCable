@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+    <record id="mobile_sale_inherit" model="ir.ui.view">
+      <field name="name">mobile.sale.order.view.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field eval="17" name="priority" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='payment_term_id']" position="after">
+          <field name="expected_delivery_time" readonly="1" />
+          <field name="is_completed" invisible="1" />
+        </xpath>
+        <xpath expr="//header/button[@name='action_unlock']" position="after">
+          <button class="btn btn-primary" name="action_order_complete"
+            help="It shows that customer received product and it will also locked order"
+            type="object"
+            string="Order Complete"
+            invisible="delivery_status!='full' or is_completed or state !='sale'"
+          />
+          <button name="action_order_uncomplete"
+            help="It is used to unlock and reverse complete"
+            type="object" string="Uncomplete"
+            invisible="not is_completed"
+          />
+        </xpath>
+        <xpath expr="//header/button[@name='action_unlock']" position="attributes">
+          <attribute name="invisible">not locked or is_completed</attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

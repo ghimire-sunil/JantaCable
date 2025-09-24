@@ -1,0 +1,13 @@
+<odoo>
+    <record id="approval_request_view_form_inherit_behalf_worker" model="ir.ui.view">
+        <field name="name">approval.request.form.inherit.behalf_worker</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Using XPath to locate request_owner_id field -->
+            <xpath expr="//field[@name='request_owner_id']" position="after">
+                <field name="behalf_worker_id" widget="many2one_avatar_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

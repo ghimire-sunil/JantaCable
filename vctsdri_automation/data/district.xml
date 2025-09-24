@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="district_achham" model="res.district">
+        <field name="name">Achham</field>
+        <field name="code">1</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_arghakhanchi" model="res.district">
+        <field name="name">Arghakhanchi</field>
+        <field name="code">2</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_baglung" model="res.district">
+        <field name="name">Baglung</field>
+        <field name="code">3</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_baitadi" model="res.district">
+        <field name="name">Baitadi</field>
+        <field name="code">4</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bajhang" model="res.district">
+        <field name="name">Bajhang</field>
+        <field name="code">5</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bajura" model="res.district">
+        <field name="name">Bajura</field>
+        <field name="code">6</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_banke" model="res.district">
+        <field name="name">Banke</field>
+        <field name="code">7</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bara" model="res.district">
+        <field name="name">Bara</field>
+        <field name="code">8</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bardiya" model="res.district">
+        <field name="name">Bardiya</field>
+        <field name="code">9</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bhaktapur" model="res.district">
+        <field name="name">Bhaktapur</field>
+        <field name="code">10</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_bhojpur" model="res.district">
+        <field name="name">Bhojpur</field>
+        <field name="code">11</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_chitwan" model="res.district">
+        <field name="name">Chitwan</field>
+        <field name="code">12</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dadeldhura" model="res.district">
+        <field name="name">Dadeldhura</field>
+        <field name="code">13</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dailekh" model="res.district">
+        <field name="name">Dailekh</field>
+        <field name="code">14</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dang" model="res.district">
+        <field name="name">Dang</field>
+        <field name="code">15</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_darchula" model="res.district">
+        <field name="name">Darchula</field>
+        <field name="code">16</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dhading" model="res.district">
+        <field name="name">Dhading</field>
+        <field name="code">17</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dhankuta" model="res.district">
+        <field name="name">Dhankuta</field>
+        <field name="code">18</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dhanusha" model="res.district">
+        <field name="name">Dhanusha</field>
+        <field name="code">19</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dolkha" model="res.district">
+        <field name="name">Dolkha</field>
+        <field name="code">20</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_dolpa" model="res.district">
+        <field name="name">Dolpa</field>
+        <field name="code">21</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_doti" model="res.district">
+        <field name="name">Doti</field>
+        <field name="code">22</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_gorkha" model="res.district">
+        <field name="name">Gorkha</field>
+        <field name="code">23</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_gulmi" model="res.district">
+        <field name="name">Gulmi</field>
+        <field name="code">24</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_humla" model="res.district">
+        <field name="name">Humla</field>
+        <field name="code">25</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_ilam" model="res.district">
+        <field name="name">Ilam</field>
+        <field name="code">26</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_jajarkot" model="res.district">
+        <field name="name">Jajarkot</field>
+        <field name="code">27</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_jhapa" model="res.district">
+        <field name="name">Jhapa</field>
+        <field name="code">28</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_jumla" model="res.district">
+        <field name="name">Jumla</field>
+        <field name="code">29</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kailali" model="res.district">
+        <field name="name">Kailali</field>
+        <field name="code">30</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kalikot" model="res.district">
+        <field name="name">Kalikot</field>
+        <field name="code">31</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kanchanpur" model="res.district">
+        <field name="name">Kanchanpur</field>
+        <field name="code">32</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kapilvastu" model="res.district">
+        <field name="name">Kapilvastu</field>
+        <field name="code">33</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kaski" model="res.district">
+        <field name="name">Kaski</field>
+        <field name="code">34</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kathmandu" model="res.district">
+        <field name="name">Kathmandu</field>
+        <field name="code">35</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_kavre" model="res.district">
+        <field name="name">Kavre</field>
+        <field name="code">36</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_khotang" model="res.district">
+        <field name="name">Khotang</field>
+        <field name="code">37</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_lalitpur" model="res.district">
+        <field name="name">Lalitpur</field>
+        <field name="code">38</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_lamjung" model="res.district">
+        <field name="name">Lamjung</field>
+        <field name="code">39</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_mahottari" model="res.district">
+        <field name="name">Mahottari</field>
+        <field name="code">40</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_makwanpur" model="res.district">
+        <field name="name">Makwanpur</field>
+        <field name="code">41</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_manang" model="res.district">
+        <field name="name">Manang</field>
+        <field name="code">42</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_morang" model="res.district">
+        <field name="name">Morang</field>
+        <field name="code">43</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_mugu" model="res.district">
+        <field name="name">Mugu</field>
+        <field name="code">44</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_mustang" model="res.district">
+        <field name="name">Mustang</field>
+        <field name="code">45</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_myagdi" model="res.district">
+        <field name="name">Myagdi</field>
+        <field name="code">46</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_nawalparasi" model="res.district">
+        <field name="name">Nawalparasi</field>
+        <field name="code">47</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_nawalparasi_east" model="res.district">
+        <field name="name">Nawalparasi East</field>
+        <field name="code">48</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_nawalparasi_west" model="res.district">
+        <field name="name">Nawalparasi West</field>
+        <field name="code">49</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_nuwakot" model="res.district">
+        <field name="name">Nuwakot</field>
+        <field name="code">50</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_okhaldhunga" model="res.district">
+        <field name="name">Okhaldhunga</field>
+        <field name="code">51</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_palpa" model="res.district">
+        <field name="name">Palpa</field>
+        <field name="code">52</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_panchthar" model="res.district">
+        <field name="name">Panchthar</field>
+        <field name="code">53</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_parbat" model="res.district">
+        <field name="name">Parbat</field>
+        <field name="code">54</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_parsa" model="res.district">
+        <field name="name">Parsa</field>
+        <field name="code">55</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_pyuthan" model="res.district">
+        <field name="name">Pyuthan</field>
+        <field name="code">56</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_ramechhap" model="res.district">
+        <field name="name">Ramechhap</field>
+        <field name="code">57</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rasuwa" model="res.district">
+        <field name="name">Rasuwa</field>
+        <field name="code">58</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rautahat" model="res.district">
+        <field name="name">Rautahat</field>
+        <field name="code">59</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rolpa" model="res.district">
+        <field name="name">Rolpa</field>
+        <field name="code">60</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rukum" model="res.district">
+        <field name="name">Rukum</field>
+        <field name="code">61</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rukum_east" model="res.district">
+        <field name="name">Rukum East</field>
+        <field name="code">62</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rukum_west" model="res.district">
+        <field name="name">Rukum West</field>
+        <field name="code">63</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_rupandehi" model="res.district">
+        <field name="name">Rupandehi</field>
+        <field name="code">64</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_salyan" model="res.district">
+        <field name="name">Salyan</field>
+        <field name="code">65</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_sankhuwasabha" model="res.district">
+        <field name="name">Sankhuwasabha</field>
+        <field name="code">66</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_saptari" model="res.district">
+        <field name="name">Saptari</field>
+        <field name="code">67</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_sarlahi" model="res.district">
+        <field name="name">Sarlahi</field>
+        <field name="code">68</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_sindhuli" model="res.district">
+        <field name="name">Sindhuli</field>
+        <field name="code">69</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_sindhupalchowk" model="res.district">
+        <field name="name">Sindhupalchowk</field>
+        <field name="code">70</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_siraha" model="res.district">
+        <field name="name">Siraha</field>
+        <field name="code">71</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_solukhumbu" model="res.district">
+        <field name="name">Solukhumbu</field>
+        <field name="code">72</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_sunsari" model="res.district">
+        <field name="name">Sunsari</field>
+        <field name="code">73</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_surkhet" model="res.district">
+        <field name="name">Surkhet</field>
+        <field name="code">74</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_syangja" model="res.district">
+        <field name="name">Syangja</field>
+        <field name="code">75</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_tanahu" model="res.district">
+        <field name="name">Tanahu</field>
+        <field name="code">76</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_taplejung" model="res.district">
+        <field name="name">Taplejung</field>
+        <field name="code">77</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_terhathum" model="res.district">
+        <field name="name">Terhathum</field>
+        <field name="code">78</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+
+    <record id="district_udayapur" model="res.district">
+        <field name="name">Udayapur</field>
+        <field name="code">79</field>
+        <field name="country_id" ref="base.np"/>
+    </record>
+</odoo>

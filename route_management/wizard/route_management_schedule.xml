@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="route_management_wizard_form_view" model="ir.ui.view">
+            <field name="name">route.management.wizard.form</field>
+            <field name="model">route.management.schedule.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Schedule Route">
+                        <field name="route_id" />
+                        <field name="user_ids" widget="many2many_tags"/>
+                        <field name="from_date" />
+                        <field name="to_date" />
+                    </group>
+                    <footer>
+                        <button name="action_create_scheduled_routes" string="Schedule Routes" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_route_management_wizard_view" model="ir.actions.act_window">
+            <field name="name">Route Management</field>
+            <field name="res_model">route.management.schedule.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+</odoo>

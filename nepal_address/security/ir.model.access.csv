@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_address_nepal_address_nepal,address_nepal.address_nepal,model_hr_employee,base.group_user,1,1,1,1
+access_res_district,res.district,model_res_district,base.group_user,1,1,1,0
+access_res_province,res.province,model_res_province,base.group_user,1,1,1,0
+access_res_municipality,res.municipality,model_res_municipality,base.group_user,1,1,1,0
+access_res_ward,res.ward,model_res_ward,base.group_user,1,1,1,0
+

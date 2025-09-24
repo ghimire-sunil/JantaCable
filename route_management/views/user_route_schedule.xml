@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="view_search_user_route_schedule" model="ir.ui.view">
+            <field name="name">user.route.schedule.search.view</field>
+            <field name="model">user.route.schedule</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="user_id"/>
+                    <field name="route_id"/>
+
+                    <filter name="today" string="Today" domain="[('date', '=', context_today())]"/>
+                    <separator/>
+                    <filter string="Schedule Date" name="filter_schedule_date" date="date"/>
+
+
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="groupby_user" context="{'group_by': 'user_id'}"/>
+                        <filter string="Route" name="groupby_route" context="{'group_by': 'route_id'}"/>
+                        <filter string="Schedule Date" name="groupby_date" context="{'group_by': 'date:week'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="view_tree_user_route_schedule_ui" model="ir.ui.view">
+            <field name="name">user.route.schedule.tree.view</field>
+            <field name="model">user.route.schedule</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="user_id"/>
+                    <field name="route_id"/>
+                    <field name="date"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_form_user_route_schedule_ui" model="ir.ui.view">
+            <field name="name">user.route.schedule.form.view</field>
+            <field name="model">user.route.schedule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <!-- <label for="date"/> -->
+                                <!-- <div id="date_deadline_and_recurring_route" class="d-inline-flex w-100">
+                                    <field name="date" nolabel="1" decoration-danger="date and date &lt; current_date"/>
+                                    <field name="recurring_route" nolabel="1" class="ms-0" style="width: fit-content;"
+                                        widget="boolean_icon" options="{'icon': 'fa-repeat'}"/>
+                                </div>
+                                <label for="repeat_interval" invisible="not recurring_route" />
+                                <div invisible="not recurring_route" class="d-flex" name="repeat_intervals">
+                                    <field name="repeat_interval" required="recurring_route"
+                                        class="me-2" style="max-width: 2rem !important;" />
+                                    <field name="repeat_unit" required="recurring_route"
+                                        class="me-2" style="max-width: 4rem !important;" />
+                                    <field name="repeat_type" required="recurring_route"
+                                        class="me-2" style="max-width: 15rem !important;" />
+                                    <field name="repeat_until" invisible="repeat_type != 'until'" required="repeat_type == 'until'"
+                                        class="me-2" />
+                                </div> -->
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="route_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_kanban_user_route_schedule_ui" model="ir.ui.view">
+            <field name="name">user.route.schedule.kanban.view</field>
+            <field name="model">user.route.schedule</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="route_id" default_order="date asc" quick_create="false">
+                    <field name="id"/>
+                    <field name="user_id"/>
+                    <field name="route_id"/>
+
+                    <templates>         
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <field name="user_id" />
+                                    </h4>
+                                    <div class="d-flex justify-content-between">    
+                                        <field name="route_id" />
+                                        <field name="date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="user_route_schedule_list_action">
+            <field name="name">User Route Schedule</field>
+            <field name="path">route-schedule</field>
+            <field name="res_model">user.route.schedule</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="context">{'search_default_today': 1}</field>
+        </record>
+    </data>
+</odoo>

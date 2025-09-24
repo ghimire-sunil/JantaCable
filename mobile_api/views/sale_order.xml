@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="sale_image_view_kanban" model="ir.ui.view">
+        <field name="name">sale.image.view.kanban</field>
+        <field name="model">sale.image</field>
+        <field name="arch" type="xml">
+            <kanban string="Sale Order Images" default_order="sequence">
+                <field name="sequence" widget="handle"/>
+                <templates>
+                    <t t-name="card" class="p-0 border-0">
+                        <div class="card">
+                            <div class="o_squared_image">
+                                <field class="card-img-top" name="image_1920" widget="x2_many_image"/>
+                            </div>
+                            <div class="p-2 m-0 bg-200" t-attf-title="#{record.name.value}">
+                                <field name="name" class="small fs-5 text-truncate d-block"/>
+                            </div>
+                            <!-- below 100 Kb: good -->
+                            <t t-if="record.image_1920.raw_value.length &lt; 100*1000">
+                                <t t-set="size_status" t-value="'text-bg-success'"/>
+                                <t t-set="message">Acceptable file size</t>
+                            </t>
+                            <!-- below 1000 Kb: decent -->
+                            <t t-elif="record.image_1920.raw_value.length &lt; 1000*1000">
+                                <t t-set="size_status" t-value="'text-bg-warning'" />
+                                <t t-set="message">Huge file size. The image should be optimized/reduced.</t>
+                            </t>
+                            <!-- above 1000 Kb: bad -->
+                            <t t-else="1">
+                                <t t-set="size_status" t-value="'text-bg-danger'"/>
+                                <t t-set="message">Optimization required! Reduce the image size or increase your compression settings.</t>
+                            </t>
+                            <span t-attf-class="badge #{size_status} o_product_image_size" t-att-title="message"></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_inherit_view">
+        <field name="name">sale.order.inherit.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="after">
+                <!-- <field name="prev_price"/> -->
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]" position="inside">
+                <group name="remarks_group" string="Other Info">
+                    <field name="payment_method" readonly="True"/>
+                    <field name="remarks"/>
+                        <label for="latitude" string="Geo Location"/>
+                        <div>
+                            <span>Latitude: <field name="latitude" nolabel="1" class="oe_inline"/></span>
+                            <br/>
+                            <span>Longitude: <field name="longitude" nolabel="1" class="oe_inline"/></span>
+                            <br/>
+                        </div>
+                </group>
+                <group name ="images" string="Images">
+                    <field 
+                        name="order_image_ids" 
+                        class="o_website_sale_image_list" 
+                        context="{'default_name': name}" 
+                        mode="kanban" 
+                        add-label="Add Media" 
+                        nolabel="1" 
+                        widget="x2_many_media_viewer"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='discount']" position="after">
+                <field name="discount_in_amount"/>
+            </xpath>
+
+            <xpath expr="//header" position="after">
+                <div
+                    class="alert alert-warning" role="alert"
+                    invisible="partner_credit_span_warning == ''">
+                    <field name="partner_credit_span_warning"/>
+                </div>
+            </xpath>
+
+            <!-- DELIVERY -->
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="expected_delivery_time" readonly="1" />
+                <field name="is_completed" invisible="1" />
+            </xpath>
+            <xpath expr="//header/button[@name='action_unlock']" position="after">
+                <button class="btn btn-primary" name="action_order_complete"
+                    help="It shows that customer received product and it will also locked order"
+                    type="object"
+                    string="Order Complete"
+                    invisible="delivery_status!='full' or is_completed or state !='sale'"
+                />
+                <button name="action_order_uncomplete"
+                    help="It is used to unlock and reverse complete"
+                    type="object" string="Uncomplete"
+                    invisible="not is_completed"
+                />
+            </xpath>
+            <xpath expr="//header/button[@name='action_unlock']" position="attributes">
+                <attribute name="invisible">not locked or is_completed</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+    </data>
+    
+</odoo>

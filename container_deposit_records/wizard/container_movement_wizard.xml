@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="container_movement_form_view" model="ir.ui.view">
+            <field name="name">container.movement.form</field>
+            <field name="model">container.movement.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Properties categories">
+                    <group col="4" string="General Information">
+                        <field name="from_date" />
+                        <field name="to_date" />
+                        <field name="partner_id" />
+                    </group>
+                    <footer>
+                        <button name="action_open_window" string="Open Movements" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="container_movement_wizard_view" model="ir.actions.act_window">
+            <field name="name">Container Movement</field>
+            <field name="res_model">container.movement.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+</odoo>

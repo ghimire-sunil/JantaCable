@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="view_account_move_form_inherit_purchase_import" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.purchase.import</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other_info']" position="after">
+                    <page name="purchase_import" string="Purchase Import">
+                        <group>
+                           <field name= "pp_no" placeholder="PP No."/>
+                           <field name= "grn_no" placeholder="GRN No."/>
+                           <field name= "purchase_type" placeholder="Purchase Type"/>
+                           <field name= "doc_mode" placeholder="Document Mode"/>
+                           <field name= "vendor_grn_no" placeholder="Vendor GRN No."/>
+                           <field name= "vendor_grn_date" placeholder="Vendor GRN Date."/>
+                           <field name= "storage_location_name" placeholder="Storage Location Name."/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

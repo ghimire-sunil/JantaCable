@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="action_container_deposit_records">
+        <field name="name">Container Deposit Records</field>
+        <field name="res_model">container.deposit.records</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="root_container_deposit_record_menu" web_icon="container_deposit_records,static/description/icon.png"
+        name="Container Deposits" sequence="80"
+    />
+
+    <menuitem id="container_deposit_record_menu"
+        name="Records" sequence="1"
+        parent="root_container_deposit_record_menu"
+        action="action_container_deposit_records" />
+
+    <menuitem id="container_deposit_reports_menu"
+        name="Reports" sequence="10"
+        parent="root_container_deposit_record_menu"/>
+
+    <menuitem id="container_movement_menu"
+        name="Container Movement" sequence="20"
+        parent="container_deposit_reports_menu"
+        action="container_movement_wizard_view"/>
+
+    <menuitem id="deposit_refund_menu"
+        name="Deposit and Refund" sequence="30"
+        parent="container_deposit_reports_menu"
+        action="container_deposit_refund_wizard_view"/>
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View fleet.vehicle form -->
+    <record id="view_fleet_vehicle_form" model="ir.ui.view">
+        <field name="name">view.fleet.vehicle.form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='page_tax_info']" position="before">
+                <page name="vehicle_license_plate" string="Vehicle Plate">
+                    <group string="Vehicle Category">
+                        <field name="vehicle_category" />
+                    </group>
+                    <group>
+                        <group string="Zonal Plate" invisible="vehicle_category != 'zonal'">
+                            <field name="zonal_code" />
+                            <field name="lot_number" />
+                            <field name="symbol" />
+                            <field name="vehicle_number" />
+                        </group>
+                        <group string="Provincal Plate" invisible="vehicle_category != 'provincal'">
+                            <field name="provincal_id" domain="['|',('is_embosed', '=', False), ('is_both', '=', True)]" />
+                            <field name="office_code" />
+                            <field name="lot_number" />
+                            <field name="symbol" />
+                            <field name="vehicle_number" />
+                        </group>
+                        <group string="Embosed Plate" invisible="vehicle_category != 'embosed'">
+                            <field name="provincal_id" domain="['|',('is_embosed', '=', True), ('is_both', '=', True)]"/>
+                            <field name="vehicle_code" />
+                            <field name="lot_number" />
+                            <field name="vehicle_number" />
+                        </group>
+                        <group string="Others" invisible="vehicle_category != 'others'">
+                            <field name="vehicle_number" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

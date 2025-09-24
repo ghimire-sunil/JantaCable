@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="delivery_boy.picking_assigned_form">
+        <field name="name">Delivery Picking Assigned Form</field>
+        <field name="model">delivery_boy.picking.assigned</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field invisible='1' name="stock_picking_id" />
+                        <field name="schedule_date" options="{'min_date':'today'}" />
+                        <field name="assigned"
+                            context="{'default_is_delivery_person':'true'}" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Assigned Delivery" name="action_create_picking" type="object"
+                        class="oe_highlight" data-hotkey="q" />
+                    <button string="Discard" class="btn btn-secondary" special="cancel"
+                        data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="delivery_boy.payment_register_form">
+        <field name="name">Payment Register</field>
+        <field name="model">delivery_boy.payment.register</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field invisible='1' name="picking_id" />
+                        <field name="payment_date" />
+                        <field name="collected_by" context="{'default_is_delivery_person':'true'}" />
+                        <field name="amount" context="{'default_is_delivery_person':'true'}" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Register" name="action_register_payment" type="object"
+                        class="oe_highlight" />
+                    <button string="Discard" class="btn btn-secondary" special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

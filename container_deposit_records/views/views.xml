@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <data>
+
+            <!-- PAYMENT FORM INHERITED -->
+            <record id="customer_payment_form_inherited" model="ir.ui.view">
+                <field name="name">payment.form.inherited</field>
+                <field name="model">account.payment</field>
+                <field name="inherit_id" ref="account.view_account_payment_form" />
+                <field name="arch" type="xml">
+                    <!-- <label for="is_internal_transfer" position="attributes">
+                        <attribute name="invisible">context.get('active_model') == 'container.deposit.records'</attribute>
+                    </label> -->
+                    <!-- <xpath expr="//sheet//group[@name='main_group']//group[@name='group1']//div[1]" position="attributes">
+                        <attribute name="invisible">context.get('active_model') == 'container.deposit.records'</attribute>
+                    </xpath> -->
+                    <field name="payment_type" position="attributes">
+                        <attribute name="invisible">context.get('active_model') == 'container.deposit.records'</attribute>
+                    </field>
+                    <button name="action_post" position="attributes">
+                        <attribute name="invisible">context.get('active_model') == 'container.deposit.records' or state != 'draft'</attribute>
+                    </button>
+                    <xpath expr="//sheet" position="after">
+                        <footer invisible="context.get('active_model') != 'container.deposit.records'">
+                            <button name="action_post" string="Save &amp; Confirm" type="object" class="oe_highlight" invisible="state != 'draft'" data-hotkey="q"/>
+                            <button special="cancel" string="Cancel" />
+                        </footer>
+                    </xpath>
+                </field>
+            </record>
+
+            <!-- list VIEW -->
+            <record model="ir.ui.view" id="container_deposit_record_tree_view">
+                <field name="name">Container Deposit list</field>
+                <field name="model">container.deposit.records</field>
+                <field name="arch" type="xml">
+                <list default_order='name desc'>
+                    <field name="name"/>
+                    <field name="sale_id"/>
+                    <field name="partner_id"/>
+                    <field name="order_date"/>
+                    <field name="delivery_boy"/>
+                    <field name="container_quantity"/>
+                    <field name="unit_price"/>
+                    <field name="total_price"/>
+                    <field name="returned_date"/>
+                    <field name="returned_quantity"/>
+                    <field name="returned_price"/>
+                    <field name="status" widget="badge"
+                        decoration-muted="status=='draft'" 
+                        decoration-success="status=='returned'"
+                        decoration-warning="status=='delivered'"/>
+                    <field name="payment_status" widget="badge"
+                        decoration-warning="payment_status=='partial'" 
+                        decoration-success="payment_status=='paid'"
+                        decoration-danger="payment_status=='not_paid'"/>
+                </list>
+                </field>
+            </record>
+
+            <!-- FORM VIEW -->
+            <record model="ir.ui.view" id="container_deposit_record_form_view">
+                <field name="name">Container Deposit Record Form</field>
+                <field name="model">container.deposit.records</field>
+                <field name="arch" type="xml">
+                    <form>
+
+                        <header>
+                            <field name="entry_ids" invisible="1"/>
+                            <field name="payment_status" invisible="1"/>
+                            <field name="picking_ids" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <button name='%(stock.act_stock_return_picking)d' type='action' string='Return' class="btn-primary" invisible="return_status == 'full' or not entry_ids"/>
+                            <button name="action_open_payment_form" type="object" string="Payment" target="new" class="btn-primary" invisible="return_status != 'full' or not entry_ids or payment_status == 'paid'"/>
+                            <button name="action_open_payment_form" type="object" string="Payment" target="new" invisible="return_status == 'full' or not entry_ids or payment_status == 'paid'"/>
+                            <button name="action_print_payment_receipt" type="object" string="Print Receipt" invisible="not id"/>
+                            <!-- <button name="action_create_journal_entry" type="object" string="Post Journal Entry" class="btn-primary" invisible="not id"/> -->
+                            <!-- <button name="action_create_payment_journal_entry" type="object" string="Post Payment Journal Entry" class="btn-primary" invisible="payment_journal_entry or total_price != returned_price"/> -->
+                            <field name="status" widget="statusbar"></field>
+                        </header>
+
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                                
+                                <button name="action_view_container_delivery" type="object" 
+                                    class="oe_stat_button" icon="fa-truck" 
+                                    invisible="not picking_ids">
+                                    <div class="o_stat_info">
+                                        <span class="o_stat_text">Delivery</span>
+                                    </div>
+                                </button>
+                                
+                                <button name="action_view_entry" type="object" 
+                                    class="oe_stat_button" icon="fa-pencil-square-o" 
+                                    invisible="not entry_ids">
+                                    <div class="o_stat_info">
+                                        <field name="entry_count" widget="statinfo" string="Journal Entries"/>
+                                    </div>
+                                </button>
+
+                                <button name="action_see_returns" type="object"
+                                    class="oe_stat_button" icon="fa-rotate-left"
+                                    invisible="return_count == 0">
+                                    <field string="Returns" name="return_count" widget="statinfo"/>
+                                </button>
+
+                                <button name="action_view_payments" type="object" 
+                                    class="oe_stat_button"
+                                    icon="fa-money" invisible="payments_count == 0">
+                                    <field name="payments_count" widget="statinfo" string="Returned Amount" />
+                                </button>
+
+                            </div>
+
+                            <field name="return_status" invisible="1"/>
+                            <widget name="web_ribbon" title="Partial Return" bg_color="text-bg-warning" invisible="return_status != 'partial'"/>
+                            <widget name="web_ribbon" title="Full Return" bg_color="text-bg-success" invisible="return_status != 'full'"/>
+
+                            <div class="oe_title">
+                                <h1> <field name="name"/> </h1>
+                            </div>
+
+                            <group>
+                                <group>
+                                    <field name="sale_id" invisible="not status" readonly="1"/>
+                                    <field name="partner_id" required="1"/>
+                                    <field name="order_date"/>
+                                    <field name="delivered_date"/>
+                                    <field name="delivery_boy"/>
+                                </group>
+
+                                <group>
+                                    <field name="container_quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price" readonly="1"/>
+                                </group>
+
+                            </group>
+
+                            <notebook>
+
+                                <page name="returns" string="Returns" invisible="status!='returned'">
+                                    <group>
+                                        <field name="returned_date"/>
+                                        <field name="returned_quantity"/>
+                                        <field name="returned_price"/>
+                                    </group>
+                                </page>
+
+                            </notebook>
+
+                        </sheet>
+
+                        <chatter/>
+                        
+                    </form>
+                </field>
+            </record>
+
+        </data>
+    </odoo>

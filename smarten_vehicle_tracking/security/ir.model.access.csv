@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+smarten_vehicle_tracking.access_gps_device,access_gps_device,smarten_vehicle_tracking.model_gps_device,base.group_user,1,1,1,1
+smarten_vehicle_tracking.access_fleet_gps_position,access_fleet_gps_position,smarten_vehicle_tracking.model_fleet_gps_position,base.group_user,1,1,0,0
+smarten_vehicle_tracking.access_fleet_gps_report,access_fleet_gps_report,smarten_vehicle_tracking.model_fleet_gps_report,base.group_user,1,1,0,0

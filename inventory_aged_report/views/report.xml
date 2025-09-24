@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="inventory_report_view_pivot" model="ir.ui.view">
+            <field name="name">inventory.aged.report.view.pivot</field>
+            <field name="model">inventory.aged.report</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="aged_bucket" type="col"/>
+                    <field name="partner_id" type="row"/>
+                    <field name="name" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="inventory_report_view_list" model="ir.ui.view">
+            <field name="name">inventory.aged.report.view.list</field>
+            <field name="model">inventory.aged.report</field>
+            <field name="arch" type="xml">
+                <list action="action_open_order" type="object">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="partner_id" />
+                    <field name="price_total"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="stock_inventory_report" model="ir.actions.act_window">
+            <field name="name">Inventory Aged Report</field>
+            <field name="res_model">inventory.aged.report</field>
+            <field name="view_mode">pivot</field>
+        </record>
+
+        <menuitem id="inventory_aged_report_menu" name="Aged Report" action="stock_inventory_report" parent="stock.menu_warehouse_report" sequence="10"/>
+
+    </data>
+
+</odoo>

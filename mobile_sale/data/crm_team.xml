@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="salesteam_mobile_sales" model="crm.team">
+            <field name="name">Mobile</field>
+            <field name="company_id" eval="False" />
+            <field name="active" eval="True" />
+        </record>
+    </data>
+</odoo>

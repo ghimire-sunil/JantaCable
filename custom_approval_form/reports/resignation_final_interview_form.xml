@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- report master template -->
+    <template id="common_resignation_final_interview_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style>
+                    .page-break {
+                        page-break-after: always;
+                    }
+                </style>
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
+                <t t-foreach="docs" t-as="doc" >
+                    <t t-call="custom_approval_form.resignation_final_interview_temp"/>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+    <!-- REsignation Final Interview Template -->
+    <template id="resignation_final_interview_temp" name="custom_payment">
+        <div class="fw-bold text-center">
+            <span>Kedia Organisation</span><br/>
+            <span>EXIT INTERVIEW FORM</span>
+        </div>
+        <div class="border fw-bold text-center">
+            <span>RESIGNEES INTERVIEW FORM</span>
+        </div>
+        <div class="border fw-bold mt-2">
+            <span>PLEASE NOTE THAT RESIGNEES WILL BE INTERVIEWED AS SOON AS RESIGNATION
+            LETTER IS RECEIVED BY LINE MANAGER/HR DEPARTMENT. IT IS A PART OF THE HR
+            ATTRITION MANAGEMENT PROGRAM AND SHALL BE TREATED WITH STRICTEST
+            CONFIDENTIALITY.</span>
+        </div>
+        <div>
+            <span class="fw-bold">A. PERSONAL AND EMPLOYMENT DETAILS AT KEDIA ORGANISATION</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Full Name</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">Designation</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">Business Unit</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">Date of Resignation</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">5</td>
+                    <td class="p-1" style="width:30%;">Contact: Address /Phone / Email</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">6</td>
+                    <td class="p-1" style="width:30%;">Name of Interviewer</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr class="text-center">
+                    <td class="p-1" colspan="3">TO BE FILLED UP BY THE INTERVIEWER AFTER THE EXIT INTERVIEW</td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">7</td>
+                    <td class="p-1" style="width:30%;">Comments by the Employee</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">8</td>
+                    <td class="p-1" style="width:30%;">Reason/s for Leaving</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">9</td>
+                    <td class="p-1" style="width:30%;">Comments by the interviewer</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="text-center fw-bold">
+            <span>EXIT INTERVIEW QUESTIONS</span>
+        </div>
+        <div class="fw-bold">
+            <span>A. GENERAL QUESTIONS</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Why did you join this Company?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">How would you describe the Kedia Organisation's culture?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">Do you see yourself fitting with Kedia Organisation’s culture? Tell me more about it.</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">What do you admire about Kedia Organisation's culture?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">5</td>
+                    <td class="p-1" style="width:30%;">Is there anything you dislike about Kedia Organisation's culture?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>B. TALENT</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">How did you feel about the fit between your talent and the job role?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">What did you like and dislike about your job in Kedia Organisation ?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">Tell me about the job you were performing.</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">How were your responsibilities different from your expectations?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>C. EXPECTATIONS</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Tell me about the management style at your workplace?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>D. RELATIONSHIP</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Tell me about the management style at your workplace?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">What kind of relationship did you have with your manager?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">What kind of relationship did you have with your colleagues?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">What kind of managers do you like?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">5</td>
+                    <td class="p-1" style="width:30%;">What was the best thing your managers ever did to motivate you?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>E. REWARD</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Tell me about the most important recognition you’ve received in Kedia Organisation ?</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">Why was it the most important recognition to you?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">Tell me about the success in your job?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">How did you know you were successful?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">5</td>
+                    <td class="p-1" style="width:30%;">How do you like to be rewarded for your work?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>F. LEARNING AND GROWING</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">What learning and training opportunities did you have in your job?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">How would you have liked to see your career develop in your job?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="fw-bold">
+            <span>G. THE FUTURE</span>
+        </div>
+        <div>
+            <table style="width:100%;">
+                <tr>
+                    <td class="p-1" style="width:10%;">1</td>
+                    <td class="p-1" style="width:30%;">Had you stayed with Kedia Organisation, what would be your ideal role?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">2</td>
+                    <td class="p-1" style="width:30%;">What was the final thing that led you to decide to quit?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">3</td>
+                    <td class="p-1" style="width:30%;">If there were one thing you could change, which would have allowed you to stay, what would that be?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">4</td>
+                    <td class="p-1" style="width:30%;">Is there anything else you think I should know?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">5</td>
+                    <td class="p-1" style="width:30%;">Would you recommend Kedia Organisation as a place to work and build a career to others?</td>
+                    <td class="p-1"></td>
+                </tr>
+                <tr>
+                    <td class="p-1" style="width:10%;">6</td>
+                    <td class="p-1" style="width:30%;">Would you mind, if we discuss your inputs to your Supervisor with your name?</td>
+                    <td class="p-1"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <span>Additional Comments (if any):</span><br/>
+            <span>Interview conducted by:</span><br/>
+            <span>Date:</span><br/>
+        </div>
+    </template>
+
+    <!-- paper format -->
+    <record id="custom_resignation_final_interview_paperformat" model="report.paperformat">
+        <field name="name">Resignation Final Interview</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="header_spacing">0</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!-- report action -->
+    <record id="custom_resignation_final_interview_action" model="ir.actions.report">
+        <field name="name">Resignation Final Interview</field>
+        <field name="model">hr.departure.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_approval_form.common_resignation_final_interview_template</field>
+        <field name="report_file">custom_approval_form.common_resignation_final_interview_template</field>
+        <field name="binding_model_id" ref="custom_approval_form.model_hr_departure_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="custom_resignation_final_interview_paperformat" />
+    </record>
+
+</odoo>

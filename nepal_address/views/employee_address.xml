@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Add Permanent Address -->
+        <record id="view_employee_form_private_address_inherit" model="ir.ui.view">
+            <field name="name">employee.private.address.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//div[@class='o_address_format']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='private_email']" position="before">
+                    <div>
+                        <field name ="street" invisible = "1"/> 
+                        <field name="private_country_id" placeholder="Country" readonly="1"/>
+                        <field name="province_id" placeholder="Province" domain="[('country_id','=',private_country_id)]"/>
+                        <field name="district_id" placeholder="District" domain="[('province_id','=',province_id)]"/>
+                        <field name="municipality_id" placeholder="Municipality" domain="[('district_id','=',district_id)]"/>
+                        <field name="ward_id" placeholder="Ward" domain="[('municipality_id','=',municipality_id)]"/>
+                        <field name="city" placeholder="City"/>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Add Temporary Address Section -->
+        <record id="view_employee_temp_address_inherit" model="ir.ui.view">
+            <field name="name">employee.temporary.address.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='personal_information']/group/group[1]" position="after">
+                    <group string="Temporary Address">
+                        <field name="temp_province_id" placeholder="Province" domain="[('country_id','=',private_country_id)]"/>
+                        <field name="temp_district_id" placeholder="District" domain="[('province_id','=',temp_province_id)]"/>
+                        <field name="temp_municipality_id" placeholder="Municipality" domain="[('district_id','=',temp_district_id)]"/>
+                        <field name="temp_ward_id" placeholder="Ward" domain="[('municipality_id','=',temp_municipality_id)]"/>
+                        <field name="temp_city" placeholder="City"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- Add Contact Address Section -->
+        <record id="view_partner_address_custom" model="ir.ui.view">
+            <field name="name">employee.emergency.address.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='emergency_phone']" position="after">
+                        <field name="private_country_id" placeholder="Country"/>
+                        <field name="emp_province_id" placeholder="Province" domain="[('country_id','=',private_country_id)]"/>
+                        <field name="emp_district_id" placeholder="District" domain="[('province_id','=',emp_province_id)]"/>
+                        <field name="emp_municipality_id" placeholder="Municipality" domain="[('district_id','=',emp_district_id)]"/>
+                        <field name="emp_ward_id" placeholder="Ward" domain="[('municipality_id','=',emp_municipality_id)]"/>
+                </xpath>
+                    </field>
+        </record>
+        <record id="view_emergency_address_custom" model="ir.ui.view">
+            <field name="name">employee.custom.address.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <field name="private_country_id" placeholder="Country"/>
+                        <field name="contact_province_id" placeholder="Province" domain="[('country_id','=',private_country_id)]"/>
+                        <field name="contact_district_id" placeholder="District" domain="[('province_id','=',contact_province_id)]"/>
+                        <field name="contact_municipality_id" placeholder="Municipality" domain="[('district_id','=',contact_district_id)]"/>
+                        <field name="contact_ward_id" placeholder="Ward" domain="[('municipality_id','=',contact_municipality_id)]"/>
+                    </div>
+                    
+                </xpath>
+                    </field>
+        </record>
+        
+        <!-- Add Company Address Section -->
+        <record id="view_partner_address_company" model="ir.ui.view">
+            <field name="name">res.partner.company.address.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <field name="street"/>
+                        <field name="street2"/>
+                        <field name="private_country_id" placeholder="Country"/>
+                        <field name="company_province_id" placeholder="Province" domain="[('country_id','=',private_country_id)]"/>
+                        <field name="company_district_id" placeholder="District" domain="[('province_id','=',company_province_id)]"/>
+                        <field name="company_municipality_id" placeholder="Municipality" domain="[('district_id','=',company_district_id)]"/>
+                        <field name="company_ward_id" placeholder="Ward" domain="[('municipality_id','=',company_municipality_id)]"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

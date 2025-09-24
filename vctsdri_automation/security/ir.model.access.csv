@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+fleet_vehicle_provincal_access_right_user,fleet_vehicle_provincal_access_right,model_fleet_vehicle_provincal,fleet.fleet_group_user,1,0,0,0
+fleet_vehicle_provincal_access_right,fleet_vehicle_provincal_access_right,model_fleet_vehicle_provincal,fleet.fleet_group_manager,1,1,1,1
+vctsdri_automation.access_res_district,access_res_district,vctsdri_automation.model_res_district,base.group_user,1,1,1,1

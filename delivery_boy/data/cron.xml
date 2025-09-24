@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <data noupdate="0">
+        <record forcecreate="True" id="cron_push_notifications_days" model="ir.cron">
+            <field name="name">Remainder Push Notifications Delivery Boy</field>
+            <field eval="True" name="active" />
+            <field name="user_id" ref="base.user_admin" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="model_id" ref="delivery_boy.model_delivery_boy_picking" />
+            <field name="state">code</field>
+            <field name="code">model._cron_daily_remainder()</field>
+        </record>
+    </data>
+</odoo>

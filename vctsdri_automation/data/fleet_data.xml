@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="provincal_pradesh_1" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 1</field>
+        <field name="code">Pradesh 1</field>
+    </record>
+    <record id="provincal_pradesh_2" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 2</field>
+        <field name="code">Pradesh 2</field>
+    </record>
+    <record id="provincal_pradesh_3" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 3</field>
+        <field name="code">Pradesh 3</field>
+    </record>
+    <record id="provincal_pradesh_4" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 4</field>
+        <field name="code">Pradesh 4</field>
+    </record>
+    <record id="provincal_pradesh_5" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 5</field>
+        <field name="code">Pradesh 5</field>
+    </record>
+    <record id="provincal_pradesh_6" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 6</field>
+        <field name="code">Pradesh 6</field>
+    </record>
+    <record id="provincal_pradesh_7" model="fleet.vehicle.provincal">
+        <field name="name">Pradesh 7</field>
+        <field name="code">Pradesh 7</field>
+    </record>
+    <record id="provincal_bagmati" model="fleet.vehicle.provincal">
+        <field name="name">Bagmati</field>
+        <field name="code">Bagmati</field>
+        <field name="is_both">True</field>
+    </record>
+    <record id="provincal_madhesh" model="fleet.vehicle.provincal">
+        <field name="name">Madhesh</field>
+        <field name="code">Madhesh</field>
+        <field name="is_both">True</field>
+    </record>
+    <record id="provincal_gandaki" model="fleet.vehicle.provincal">
+        <field name="name">Gandaki</field>
+        <field name="code">Gandaki</field>
+        <field name="is_both">True</field>
+    </record>
+    <record id="provincal_lumbini" model="fleet.vehicle.provincal">
+        <field name="name">Lumbini</field>
+        <field name="code">Lumbini</field>
+        <field name="is_both">True</field>
+    </record>
+    <record id="provincal_karnali" model="fleet.vehicle.provincal">
+        <field name="name">Karnali</field>
+        <field name="code">Karnali</field>
+        <field name="is_both">True</field>
+    </record>
+    <record id="provincal_sudoorpaschim" model="fleet.vehicle.provincal">
+        <field name="name">Sudoorpaschim</field>
+        <field name="code">Sudoorpaschim</field>
+        <field name="is_both">True</field>
+    </record>
+
+    <record id="provincal_state_1" model="fleet.vehicle.provincal">
+        <field name="name">State 1</field>
+        <field name="code">State 1</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_2" model="fleet.vehicle.provincal">
+        <field name="name">State 2</field>
+        <field name="code">State 2</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_3" model="fleet.vehicle.provincal">
+        <field name="name">State 3</field>
+        <field name="code">State 3</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_4" model="fleet.vehicle.provincal">
+        <field name="name">State 4</field>
+        <field name="code">State 4</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_5" model="fleet.vehicle.provincal">
+        <field name="name">State 5</field>
+        <field name="code">State 5</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_6" model="fleet.vehicle.provincal">
+        <field name="name">State 6</field>
+        <field name="code">State 6</field>
+        <field name="is_embosed">True</field>
+    </record>
+    <record id="provincal_state_7" model="fleet.vehicle.provincal">
+        <field name="name">State 7</field>
+        <field name="code">State 7</field>
+        <field name="is_embosed">True</field>
+    </record>
+
+
+</odoo>

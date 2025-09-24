@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+route_management.access_partner_route,access_partner_route,route_management.model_partner_route,base.group_user,1,1,1,0
+route_management.access_user_route_schedule,access_user_route_schedule,route_management.model_user_route_schedule,base.group_user,1,1,1,0
+route_management.access_outlet_type,access_outlet_type,route_management.model_outlet_type,base.group_user,1,1,1,1
+route_management.access_route_management_schedule_wizard,access_route_management_schedule_wizard,route_management.model_route_management_schedule_wizard,base.group_user,1,1,1,1

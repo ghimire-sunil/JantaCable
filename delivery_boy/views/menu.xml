@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="action_delivery_boy_picking">
+        <field name="name">Delivery Boy</field>
+        <field name="res_model">delivery_boy.picking</field>
+        <field name="view_mode">list,form,map</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_delivery_boy_payment">
+        <field name="name">Payments</field>
+        <field name="res_model">delivery_boy.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="root_delivery_boy_menu" web_icon="delivery_boy,static/img/icon.png"
+        name="Delivery Boy" sequence="10"
+    />
+
+    <menuitem id="delivery_boy_picking_menu"
+        name="Picking" sequence="1"
+        parent="root_delivery_boy_menu"
+        action="action_delivery_boy_picking" />
+
+    <menuitem id="delivery_boy_payment_menu"
+        name="Payments" sequence="10"
+        parent="root_delivery_boy_menu"
+        action="action_delivery_boy_payment" />
+
+
+</odoo>
