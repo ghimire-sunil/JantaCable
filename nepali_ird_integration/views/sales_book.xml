@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_sales_book_list" model="ir.ui.view">
+        <field name="name">sales.book.list</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <header>
+                    <button name="%(nepali_ird_integration.action_open_ng_sale_wizard_form)d" string="Sales Book" type="action" class="btn-primary" display = "always"
+                    context="{'default_type': 'out_invoice'}"
+                    />   
+                </header>
+                <field name = "nepali_date" string = "Date(B.S.)" />
+                <field name = "invoice_date" string = "Date(A.D.)" />
+                <field name = "name" string="Bill No."/>
+                <field name = "invoice_partner_display_name" string="Buyer's Name"/>
+                <field name = "buyer_pan" string = "Buyer's PAN No."/>
+                <field name = "amount_total" string = "Total Sales" sum = "Total Amount"/>
+                <field name = "non_taxable_sales" string = "Non Taxable Sales" sum = "Non Taxable Sales"/>
+                <field name = "export_sales" string = "Export Sales" sum = "Export Sales"/>
+                <field name = "amount_discount" sum = "Amount Discount" string = "Discount"/>
+                <field name = "amount_untaxed" string ="Taxable Amount" sum="Taxable Amount"/>
+                <field name = "amount_tax" string = "Tax Amount" sum = "Tax Amount"/>
+                <field name = "currency_id" column_invisible = "1"/>
+            </list>
+        </field>
+    </record>
+
+ 
+    <record id="action_sales_book" model="ir.actions.act_window">
+        <field name="name">Sales Book</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_sales_book_list')})]"/>
+        <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+    </record>
+
+    <menuitem id = "ird_sale_report_menu" name="Sale Report" parent="ird_report_menu"/>
+    <menuitem name="Sales Book" id="menu_sales_book" parent="ird_sale_report_menu" action="action_sales_book" />
+    <!-- <menuitem name="Sales books/Purchase books"
+                id="menu_sale_book_in_excel"
+                parent="ird_sale_report_menu"
+                action="action_open_ng_sale_wizard_form" /> -->
+</odoo>
+

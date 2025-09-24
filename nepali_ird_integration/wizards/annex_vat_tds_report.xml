@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ng_vat_annex_tds_wizard_form" model="ir.ui.view">
+            <field name="name">Other Reports</field>
+            <field name="model">ng.annexreport.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Other Reports in Excel">
+                    <group>
+                        <group>
+                            <field name="type" required="1"/>
+                        </group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>                        
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="get_excel_report" string="Export(XLS)" type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_open_ng_vat_annex_tds_wizard_form">
+            <field name="name">Other Reports in Excel</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ng.annexreport.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Other Reports"
+            id="other_reports_excel"
+            parent="help_menu"
+            action="action_open_ng_vat_annex_tds_wizard_form"/>
+
+        
+    </data>
+</odoo>

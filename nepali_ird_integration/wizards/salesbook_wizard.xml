@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form to select the salesperson, start date, and end date -->
+        <record id="ng_sale_wizard_form" model="ir.ui.view">
+            <field name="name">Sales/Purchase book in Excel Format</field>
+            <field name="model">ng.salebook.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Sales Report in Excel Format">
+                    <group>
+                        <group>
+                            <field name="type" required="1" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <!-- a button to start the download process -->
+                        <button name="get_excel_report" string="Export (XLS)" type="object"
+                                class="btn-primary"/>
+                        <!-- a cancel button to close the form -->
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- the action to open the form above -->
+        <record model="ir.actions.act_window" id="action_open_ng_sale_wizard_form">
+            <field name="name">Sales book in Excel Format</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ng.salebook.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="IRD Reports"
+            id="ird_report_menu"
+            parent="account.menu_finance_reports"/>
+        
+    </data>
+</odoo>

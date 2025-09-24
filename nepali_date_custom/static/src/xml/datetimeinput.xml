@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nepali_date_custom.DateTimeInput" t-inherit="web.DateTimeField" t-inherit-mode="extension" owl="1">
+      <xpath expr='//input[@t-ref="start-date"]' position='replace'>
+          <input
+              type="text"
+              t-ref="nepali_date"
+              class="o_input cursor-pointer"
+              autocomplete="off"
+              style="display:none;"
+              t-att-data-field="nepaliDateField"
+            />
+
+          <input
+            type="time"
+            t-ref="start-time"
+            class="o_input cursor-pointer"
+            autocomplete="off"
+            style="display: none;"
+            t-att-placeholder="'HH:MM'"
+            t-on-input="onStartTimeChange"
+          />
+
+         <input
+            t-ref="start-date"
+            type="text"
+            t-att-id="showSeparator ? props.endDateField and props.id : props.id"
+            class="o_input cursor-pointer"
+            autocomplete="off"
+            t-att-placeholder="props.placeholder"
+            t-att-data-field="startDateField"
+            t-on-input="onInput"
+          />
+          <span t-on-click="switch_calendar">
+             <i class="fa fa-calendar btn btn-primary" />
+          </span>
+      </xpath>
+
+      <xpath expr='//input[@t-ref="end-date"]' position='replace'>
+          <input
+              type="text"
+              t-ref="nepali_end_date"
+              class="o_input cursor-pointer"
+              style="display:none;"
+              autocomplete="off"
+              t-att-data-field="nepaliDateField"
+            />
+
+            <input
+              type="time"
+              t-ref="end-time"
+              class="o_input cursor-pointer"
+              autocomplete="off"
+              style="display: none;"
+              t-on-change="onEndTimeChange"
+            />
+            
+           <input
+            t-ref="end-date"
+            type="text"
+            t-att-id="props.startDateField and props.id"
+            class="o_input cursor-pointer"
+            autocomplete="off"
+            t-att-placeholder="props.placeholder"
+            t-att-data-field="endDateField"
+            t-on-input="onInput"
+          />
+
+          <span t-on-click="switch_end_calendar">
+             <i class="fa fa-calendar btn btn-primary" />
+          </span>
+      </xpath>
+    </t>
+  <!-- <t t-name="nepali_date_custom.DateFilterInput" t-inherit="web.DateTimeInput"
+  t-inherit-mode="extension" owl="1">
+      <xpath expr='//input[@t-ref="start-date"]' position='replace'>
+         <div class="d-flex">
+           <input
+           type="text"
+           t-ref="nepali_date"
+            class="o_datetime_input o_input cursor-pointer"
+            autocomplete="off"
+              style="display:none;"
+            />
+            <input
+            type="text"
+            t-ref="start-date"
+            t-att-id="props.id"
+            class="o_datetime_input o_input cursor-pointer"
+            autocomplete="off"
+            t-att-placeholder="props.placeholder"
+            />
+            <span t-on-click="switch_calendar">
+              <i class="fa fa-calendar btn btn-primary" />
+            </span>
+          </div>
+      </xpath>
+
+  </t> -->
+</templates>

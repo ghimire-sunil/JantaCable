@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_layout_nepali_tax_invoice">
+        <!-- Multicompany -->
+
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id" />
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company" />
+        </t>
+        <div class="article" style="margin:0px;padding:0px;">
+            <t t-out="0" />
+        </div>
+
+        <div t-attf-class="header o_company_#{o.company_id.id}_layout" t-att-style="">
+            <div class="o_clean_header">
+                <div class="row mb-2">
+                    <div class="col-12 text-center" name="company_address">
+                        <div class="h6" style="font-family:arial">
+                            <t t-if="billstate==0">
+                                <strong>Draft</strong>
+                            </t>
+                            <t t-if="billstate==1">
+                                <strong>Tax Invoice</strong>
+                            </t>
+                            <t t-if="billstate==2">
+                                <strong>Invoice</strong>
+                            </t>
+                            <t t-if="billstate==3">
+                                <strong>Invoice</strong>
+                                <p> Copy of Invoice: <t t-esc="o.printed_count" />
+                                </p>
+                            </t>
+                            <t t-if="billstate==4">
+                                <strong>Draft</strong>
+                            </t>
+                            <t t-if="billstate==5">
+                                <strong>Credit Note</strong>
+                            </t>
+                            <t t-if="billstate==6">
+                                <strong>Estimate Bill</strong>
+                            </t>
+                            <strong id="invoiceName" />
+                        </div>
+                        <div style="border: 1px solid black; padding:5px;">
+                            <b class="h4 mt-4" style="font-weight: 700; font-family:arial;">
+                                <t t-if="o.company_id.parent_id" t-out="o.company_id.parent_id.name" />
+                                <t t-else=""
+                                    t-out="o.company_id.name" />
+                            </b>
+                            <br />
+                            <!--<span
+                            class="h6" style="margin-top:-2px;">Head Office: <t
+                            t-esc="o.company_id.street"/>,<t t-esc="o.company_id.city"/>, <t
+                            t-esc="o.company_id.state_id.name"/></span>-->
+                            <span class="h6">
+                                <t
+                                    t-if="o.company_id.parent_id and o.company_id.name != 'HO Billing'"
+                                    t-esc="o.company_id.name" />
+                                <t t-esc="o.company_id.street" />
+                                <t t-if="o.company_id.street and o.company_id.street2">, </t>
+                                <t t-esc="o.company_id.street2" />
+                                <t
+                                    t-if="(o.company_id.street or o.company_id.street2) and o.company_id.city">
+                                    , </t>
+                                <t t-esc="o.company_id.city" />
+                            </span>
+                            <br />
+                            <span class="h6" style="margin-top:-6px;"> Email: <t
+                                    t-esc="o.company_id.email" />
+                            </span>
+                            <br />
+                            <span>Website: <t t-esc="o.company_id.website" />
+                            </span>
+                            <br />
+                            <span class="h6" style="margin-top:-8px;"> VAT: <t
+                                    t-out="o.company_id.vat" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_standard_footer o_company_#{o.company_id.id}_layout">
+            <div class="row">
+                <div class="col-4">
+                    <span style="border-bottom: 1px solid black;" />
+                    <br />
+                    <span>Receiver's Name &amp; Sign</span>
+                </div>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4 text-center">
+                    <span style="border-top: 1px solid black; padding-top: 2px;">
+                        for Company
+                    </span>
+                    <br />
+                    <span>Authorised Signatory</span>
+                </div>
+            </div>
+            <div class="row">
+                <p class="text-center">This is a computer generated invoice.</p>
+            </div>
+        </div>
+    </template>
+
+    <template id="invoice_top_section">
+        <div style="height: 5px;"></div>
+        <div class="row mt-1" style="color:black; border:1px solid black;">
+            <div class="col-6" style="border-right:1px solid black; padding-left:10px;">
+                <span>
+                    <strong> Customer Name: </strong>
+                    <t t-out=" o.partner_id.name" />
+                </span>
+                <br />
+                <span>
+                    <strong> Customer Address: </strong>: <t
+                        t-out=" o.partner_id.contact_address_complete" />
+                </span>
+                <br />
+                <span>
+                    <strong>Customer Phone:</strong>
+                    <t t-out=" o.partner_id.phone" />
+                </span>
+                <br />
+                <span>
+                    <strong>Customer PAN:</strong>
+                    <t t-out=" o.partner_id.vat" />
+                </span>
+            </div>
+            <div class="col-6" style="border-right:1px solid black; padding-left:10px;">
+                <span>
+                    <strong>
+                        Invoice No:
+                    </strong>
+                    <t t-out=" o.name" />
+                </span>
+                <br />
+                <span>
+                    <strong>
+                        Invoice Date:
+                    </strong>
+                    <t
+                        t-out="o.invoice_date" /> ( <t t-out=" o.get_nepali_bill_date()" /> ) </span>
+                <br />
+                <span>
+                    <strong>
+                        Transaction Date:
+                    </strong>
+                    <t
+                        t-out="o.date" /> ( <t t-out=" o.get_nepali_transaction_date()" /> ) </span>
+                <br />
+                <span>
+                    <strong>
+                        Order Ref No.:
+                    </strong>
+                </span>
+                <br />
+                <t t-if=" o.move_type=='out_refund'">
+                    <p>Reference: <t t-esc="o.ref" />
+                    </p>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="invoice_table_custom">
+        <table class="table table-sm o_main_table main-table mt-2" name="invoice_line_table"
+            style="width: 100%;">
+            <thead>
+                <style>
+                    table{
+                    color:black;
+                    border-color:black;
+                    }
+                    .table_border_none{
+                    border: 0px solid white !important;
+                    }
+                    th{
+                    font-weight:bolder;
+                    font-family:arial;
+                    }
+                </style>
+                <tr>
+                    <th class="text-center" style="width: 2%;">
+                        S.N.
+                    </th>
+                    <th class="text-center" style="width: 8%; font-size:16px;">
+                        HS Code
+                    </th>
+                    <th class="text-center" style="width: 15%;">
+                        Barcode
+                    </th>
+                    <th class="text-center" style="width: 40;">
+                        Description of Goods
+                    </th>
+                    <th class="text-center" style="width: 10%;">
+                        Quantity
+                    </th>
+                    <th class="text-center" style="width: 10%;">
+                        Rate
+                    </th>
+                    <!-- <th class="text-right" style="width: 10%;">
+                        Discount
+                    </th> -->
+                    <th class="text-center" style="width: 15%">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="invoice_tbody">
+                <t t-set="lines"
+                    t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)" />
+                <t t-set="total_qty_price" t-value="0" />
+                <t t-set="sn_count" t-value="0" />
+                <t t-set="subtotal_amount" t-value="0" />
+                <t t-set="total_non_taxable_amount" t-value="0" />
+                <t t-foreach="lines" t-as="line">
+                    <tr
+                        t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                        <t t-if="line.display_type == 'product'"
+                            name="account_invoice_line_accountable">
+                            <t t-set="sn_count" t-value="sn_count+1" />
+                            <t t-set="line_total"
+                                t-value="round((line.price_unit*line.quantity)/1.13,2) - round(line.discount_amount_currency,2)" />
+
+                            <t t-set="total_qty_price" t-value="total_qty_price + line_total" />
+                            <td style="width: 2%; text-align:right;">
+                                <t t-esc="sn_count" />
+                            </td>
+                            <td style="width: 10%">
+                                <t t-esc="line.product_id.hs_code" />
+                            </td>
+                            <td style="width: 15%">
+                                <div style="text-align:center; margin-top:-5px;"
+                                    t-out="line.product_id.barcode"
+                                    t-options="{'widget': 'barcode', 'symbology': 'auto', 'img_style': 'overflow: hidden; width: 100%;height:14px;', 'humanreadable': 0, 'quiet': 0}"
+                                    class="" />
+                            </td>
+                            <td style="width: 40%">
+                                <span t-esc="line.product_id.name" t-options="{'widget': 'text'}" />
+                            </td>
+                            <td style="text-align:center; width:8% ">
+                                <t t-esc="line.quantity"
+                                    t-options="{'widget': 'float', 'precision': 0}" />
+                                <t t-esc="line.product_uom_id.name" />
+                            </td>
+
+                            <td style="text-align:right; width:10% ">
+                                <t t-if="line.tax_ids">
+                                    <t
+                                        t-if="line.tax_ids[0].price_include_override == 'tax_excluded'">
+                                        <t t-esc="line.price_unit"
+                                            t-options="{'widget': 'float', 'precision': 2}" />
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="round((line.price_unit/1.13),2)"
+                                            t-options="{'widget': 'float', 'precision': 2}" />
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="line.price_unit"
+                                        t-options="{'widget': 'float', 'precision': 2}" />
+                                </t>
+
+                            </td>
+
+                            <td style="text-align:right; width:15%">
+                                <span class="text-right" t-options="{'widget':'text'}">
+                                    <t t-if="line.tax_ids">
+                                        <t
+                                            t-if="line.tax_ids[0].price_include_override == 'tax_excluded'">
+                                            <t t-esc="line.price_unit * line.quantity"
+                                                t-options="{'widget': 'float', 'precision': 2}" />
+                                        </t>
+                                        <t t-else="">
+                                            <t
+                                                t-esc="round((line.price_unit/1.13),2) * line.quantity"
+                                                t-options="{'widget': 'float', 'precision': 2}" />
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="line.price_unit * line.quantity"
+                                            t-options="{'widget': 'float', 'precision': 2}" />
+                                    </t>
+                                </span>
+                            </td>
+                        </t>
+                        <t t-if="line.display_type == 'line_section'">
+                            <td colspan="7">
+                                <span t-field="line.name" t-options="{'widget': 'text'}" />
+                            </td>
+                        </t>
+                        <t t-if="line.display_type == 'line_note'">
+                            <td colspan="7">
+                                <span t-field="line.name" t-options="{'widget': 'text'}" />
+                            </td>
+                        </t>
+                    </tr>
+                    <t t-if="line.display_type == 'product'">
+                        <t t-if="line.tax_ids">
+                            <t t-if="line.tax_ids[0].price_include_override == 'tax_excluded'">
+                                <t t-set="subtotal_amount"
+                                    t-value="line.price_unit * line.quantity + subtotal_amount"
+                                    t-options="{'widget': 'float', 'precision': 2}" />
+                            </t>
+                            <t t-else="">
+                                <t t-set="subtotal_amount"
+                                    t-value="round((line.price_unit/1.13),2) * line.quantity + subtotal_amount"
+                                    t-options="{'widget': 'float', 'precision': 2}" />
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <t t-set="subtotal_amount"
+                                t-vaLue="line.price_unit * line.quantity + subtotal_amount"
+                                t-options="{'widget': 'float', 'precision': 2}" />
+                        </t>
+                    </t>
+                </t>
+                <tr>
+                    <td colspan="4" rowspan="3">
+                        Remarks:
+                    </td>
+                    <td colspan="2">
+                        Subtotal
+                    </td>
+                    <td style="text-align:right;">
+                        <t t-esc="subtotal_amount" t-options="{'widget': 'float', 'precision': 2}" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Discount Amount
+                    </td>
+                    <td style="text-align:right;">
+                        <t t-esc="o.amount_discount" t-options="{'widget': 'float', 'precision': 2}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Taxable Amount</td>
+                    <td style="text-align:right;">
+                        <t t-out="subtotal_amount- o.amount_discount"
+                            t-options="{'widget':'float', 'precision': 2}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Printed By:
+                    </td>
+                    <td colspan="2">
+                        <t t-out="o.get_printed_by()" />
+                    </td>
+                    <td colspan="2">
+                        VAT @ 13%
+                    </td>
+                    <td style="text-align:right;">
+                        <t t-esc="o.amount_tax" t-options="{'widget': 'float', 'precision': 2}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Printed Date:
+                    </td>
+                    <td colspan="2">
+                        <t t-out="o.get_printedtime()" />
+                    </td>
+                    <td colspan="2">
+                        Net Total NPR.
+                    </td>
+                    <td style="text-align:right;">
+                        <t t-esc="o.amount_total" t-options="{'widget':'float','precision': 2}" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <t t-call="nepali_ird_integration.invoice_totals_table" />
+    </template>
+
+    <template id="invoice_totals_table">
+        <div class="col-12 p-2" style="border:1px solid black;">
+            <p class="h6"
+                style="align:left; text-align:left; font-weight:bolder; font-family:arial;">
+                <strong>Amount in words: </strong>
+                <span t-esc="o.amount_total_words" /> Only </p>
+        </div>
+
+        <div class="col-12 p-2 mt-2" style="border:1px solid black; line-height: 0;">
+            <p style="line-height: 0.5; margin:0px;">Terms &amp; Conditions:</p>
+            <p style="line-height: 1.5; margin:0px;">E. &amp; O.E.</p>
+            <p>
+                <t t-esc="o.narration" />
+            </p>
+        </div>
+    </template>
+
+    <template id="report_tax_invoice_nepali">
+        <t t-set="o" t-value="o.with_context(lang=lang)" />
+        <t t-if="o.move_type == 'out_invoice' and o.state=='draft'">
+            <t t-name="nepali_ird_integration.report_tax_invoice_nepali">
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+
+                        <t t-set="billstate" t-value="0" />
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+            </t>
+        </t>
+
+        <t t-if="o.move_type == 'out_invoice' and o.state=='posted' and o.printed_count==0">
+            <t t-name="nepali_ird_integration.report_tax_invoice_nepali">
+                <t t-set="billstate" t-value="1" />
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+                <p style="page-break-before:always;" />
+                <t t-set="billstate" t-value="2" />
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+            </t>
+        </t>
+        <t t-if="o.move_type == 'out_invoice' and o.state=='posted' and o.printed_count!=0">
+            <t t-name="nepali_ird_integration.report_tax_invoice_nepali">
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+
+                        <t t-set="billstate" t-value="3" />
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+            </t>
+        </t>
+        <t t-if="o.move_type == 'out_refund' and o.state=='draft'">
+            <t t-name="nepali_ird_integration.report_tax_invoice_nepali">
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+
+                        <t t-set="billstate" t-value="4" />
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+            </t>
+        </t>
+        <t t-if="o.move_type == 'out_refund' and o.state=='posted'">
+            <t t-name="nepali_ird_integration.report_tax_invoice_nepali">
+                <t t-call="nepali_ird_integration.report_layout_nepali_tax_invoice">
+                    <div class="page">
+
+                        <t t-set="billstate" t-value="5" />
+                        <div class="oe_structure" />
+                        <t t-call="nepali_ird_integration.invoice_top_section" />
+                        <t t-call="nepali_ird_integration.invoice_table_custom" />
+                    </div>
+                </t>
+            </t>
+        </t>
+
+        <t t-if="o.state=='posted'">
+            <t t-esc="o.increase_print()" />
+        </t>
+    </template>
+
+    <template id="nepali_tax_invoice_translate" t-name="Nepali Tax Invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang"
+                    t-value="o.user_id.lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                <t t-call="nepali_ird_integration.report_tax_invoice_nepali" t-lang="lang" />
+            </t>
+        </t>
+    </template>
+
+    <record id="tax_invoice_nepali" model="ir.actions.report">
+        <field name="name">Nepali Tax Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nepali_ird_integration.nepali_tax_invoice_translate</field>
+        <field name="report_file">nepali_ird_integration.nepali_tax_invoice_translate</field>
+        <field name="print_report_name">object._get_pos_receipt_filename()</field>
+        <field name="binding_view_types">form</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+    </record>
+
+
+</odoo>

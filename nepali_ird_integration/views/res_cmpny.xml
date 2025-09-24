@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_company_res_form_inherit" model="ir.ui.view">
+            <field name="name">res.company.common.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='branches']" position="after">
+                    <page string="IRD Credentials" name="ird_credentials">
+                        <group string="IRD Integration" name="ird_intreg" groups="base.group_no_one">
+                            <field name="ird_integ"/>
+                            <field name="ird_user" required ="ird_integ != False"/>
+                            <field name="ird_password" password="true" required = "ird_integ != False"/>
+                            <field name="fy_start" required ="ird_integ != False"/>
+                            <field name="fy_end" required= "ird_integ != False"/>
+                            <field name="fy_prefix" required = "ird_integ != False"/>
+                            <field name="user_manuals" required = "ird_integ != False"/>
+                            <field name="default_invoice_journal_id" required = "1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+
+
+                
+                  

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ng_salebook_wizard_user,ng.salebook.wizard.user,model_ng_salebook_wizard,base.group_user,1,1,1,1
+access_ng_annexreport_wizard_user,ng.annexreport.wizard.user,model_ng_annexreport_wizard,base.group_user,1,1,1,1
+access_ird_report,ird.report,model_ird_report,,1,1,1,0
+access_report_ird_report_report_ird,report.ird_report.report_ird,model_report_ird_report_report_ird,,1,1,1,0
+access_audit_log_wizard_user,audit.log.wizard.user,model_audit_log_wizard,base.group_user,1,1,1,1
+
+
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+
+        <record id="ird_report_wizard" model="ir.ui.view">
+            <field name="name">ird.report.wizard</field>
+            <field name="model">ird.report</field>
+            <field name="arch" type="xml">
+                <form string="IRD Report">
+                    <div>
+                      <p class="oe_grey">
+                      Do You want to Print IRD  Report ?
+                      </p>
+                      <group>
+                     <field name="from_date" />
+                     <field name="to_date" />
+                    </group>
+                    </div>
+                    <footer>
+                      
+                    </footer>
+                    <footer>
+                        <button name="print_ird_report" string="EXPORT PDF" class="oe_highlight" type="object" />
+                        <button name="get_excel_report" string="Export (XLS)" type="object" class="btn-primary" />
+                        <button special="cancel" string="Cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="action_ird_report" model="ir.actions.act_window">
+            <field name="name">IRD Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ird.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ird_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <record id="view_materialized_report_list" model="ir.ui.view">
+            <field name="name">materialized.report.list</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <list create = "0">
+                <header>
+                    <button name="%(nepali_ird_integration.action_ird_report)d" string="Materialized Report" type="action" class="btn-primary" display = "always"
+                    />   
+                </header>
+                    <field name = "fy_prefix" string = "Fiscal Year Prefix"/>
+                    <field name = "name" string = "Invoice No."/>
+                    <field name = "invoice_date" string = "Invoice Date"/>
+                    <field name = "invoice_partner_display_name" string = "Customer Name"/>
+                    <field name = "buyer_pan" string = "PAN"/>
+                    <field name = "amount_untaxed" string = "Basic Amount" sum="Basic Amount"/>
+                    <field name = "amount_discount" string = "Discount" sum="Discount"/>
+                    <field name = "amount_tax" string = "Taxable Amount" sum="Taxable Amount"/>
+                    <field name = "amount_total" string = "Total Amount" sum="Total Amount"/>
+                    <field name = "bill_post" string = "Sync State" widget="boolean_toggle"/>
+                    <field name = "print_state" string = "Print State"/>
+                    <field name = "active" string = "Active"/>
+                    <field name = "last_printed" string = "Last Printed"/>
+                    <field name = "entered_by" string = "Entered By"/>
+                    <field name = "is_realtime" string = "Is Realtime" widget="boolean_toggle"/>    
+                    <field name = "printed_by" string = "Printed By"/>
+                    <field name = "payment_method" string = "Payment Method"/>
+                    <field name = "vat_refund_amount" string = "VAT Refund Amount (if any)" sum = "VAT Refund Amount"/>
+                    <field name = "transaction_amount" string = "Transaction Amount (if any)" sum = "Transaction Amount"/>
+                    <field name = "currency_id" column_invisible="1"/>
+
+
+                </list>
+            </field>
+        </record>
+        <record id="action_materialized_report" model="ir.actions.act_window">
+            <field name="name">Materialized Report</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('view_materialized_report_list')})]"/>
+            <field name="domain">[('move_type','in',('out_invoice','out_refund'))]</field>
+        </record>
+        <menuitem name="Materialized Report" id="menu_materialized_report" parent="ird_report_menu" action="action_materialized_report" />
+</odoo>     

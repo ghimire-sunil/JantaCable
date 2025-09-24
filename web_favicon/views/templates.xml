@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="favicon_icon" inherit_id="web.layout" name="Web layout">
+        <xpath expr="//head/link[@rel='shortcut icon']" position="attributes">
+            <attribute
+                name="t-att-href"
+            >env['res.company'].sudo()._get_favicon() or '/web/static/img/favicon.ico'</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_invoice_pos_report" model="ir.actions.report">
+        <field name="name">PoS Report</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">nepali_ird_integration.pos_report_ird</field>
+        <field name="report_file">nepali_ird_integration.pos_report_ird</field>
+        <field name="print_report_name">object._get_pos_receipt_filename()</field>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="paperformat_id" ref="nepali_ird_integration.paperformat_pos"/>
+    </record>
+    <template id="pos_report_ird">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.move_type == 'out_invoice'">
+                    <t t-if="o.printed_count == 0">
+                        <t t-call="nepali_ird_integration.pos_receipt_body"/>
+                        <p style="page-break-before:always;"></p>
+                    </t>
+                    <t t-call="nepali_ird_integration.pos_receipt_body"/>
+                    <p style="page-break-before:always;"></p>
+                </t>
+                <t t-elif="o.move_type == 'out_refund'">
+                    <t t-call="nepali_ird_integration.pos_receipt_body"/>
+                    <p style="page-break-before:always;"></p>
+                </t>
+                <t t-else="">
+                </t>
+                <t t-if="o.state=='posted'">
+                    <t t-esc="o.increase_print()"/>
+                </t>
+
+                <t t-if="o.state=='posted'">
+                    <t t-esc="o.increase_print()"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="pos_receipt_body" name="pos_receipt_body">
+        <div class="page">
+            <style>
+                .receipt-global-style, .receipt-global-style * {
+                    font-family: auto !important;
+                    font-size: 11px !important;
+                    line-height: 1.2 !important;
+                }
+                .receipt-table {
+                    width: 100% !important;
+                    border-collapse: collapse !important;
+                    margin-top: 8px !important;
+                }
+                .receipt-table th {
+                    font-size: 10px !important;
+                    font-family: auto !important;
+                    padding: 2px 0 !important;
+                    border: none !important;
+                    font-weight: bold !important;
+                    border-bottom: 1px solid #000 !important;
+                }
+                .receipt-table td {
+                    font-size: 9px !important;
+                    font-family: auto !important;
+                    padding: 2px 0 !important;
+                    border: none !important;
+                }
+                .receipt-header-title {
+                    font-size: 11px !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                    margin-bottom: 8px !important;
+                }
+                .receipt-info-line {
+                    font-size: 11px !important;
+                    margin-bottom: 2px !important;
+                }
+                .receipt-total-section {
+                    font-size: 11px !important;
+                    margin-top: 8px !important;
+                }
+                .receipt-total-section table {
+                    font-size: 11px !important;
+                }
+                .receipt-total-section td {
+                    font-size: 11px !important;
+                }
+                .receipt-divider {
+                    border-top: 1px dotted #000 !important;
+                    margin: 8px 0 !important;
+                }
+                .receipt-company-info {
+                    text-align: center !important;
+                    margin-bottom: 8px !important;
+                    font-size: 11px !important;
+                }
+                .receipt-words-section {
+                    font-size: 11px !important;
+                    font-weight: bold !important;
+                    margin-top: 8px !important;
+                }
+                .receipt-footer-info {
+                    font-size: 11px !important;
+                    margin-top: 8px !important;
+                }
+                .receipt-footer-info p {
+                    font-size: 11px !important;
+                    margin: 2px 0 !important;
+                }
+                .receipt-header-title-company {
+                    font-size: 14px !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                    margin-bottom: 8px !important;
+                }
+            </style>
+            <div class="receipt-global-style">
+                <t t-set="main_company" t-value="o.env['res.company'].sudo().browse(1)"/>
+                <t t-set="print_date" t-value="o.get_printedtime()"/>
+
+                <img t-if="main_company.logo" style="height: 120px;width:100%;" t-att-src="image_data_uri(main_company.logo)" alt="Logo"/>
+
+                <div class="receipt-header-title-company">
+                    <strong>
+                        <t t-out="main_company.name"/>
+                    </strong>
+                </div>
+                <div class="receipt-company-info">
+                    <div style="font-weight: bold;">
+                        <t t-out="o.company_id.name"/>
+                    </div>
+                    <div style="font-weight: bold;">
+                        <t t-out="o.company_id.street"/>
+                    </div>
+                    <div style="font-weight: bold;">
+                                PAN:
+                        <t t-esc="o.company_id.vat"/>
+                    </div>
+                </div>
+                <div class="receipt-header-title">
+                    <t t-if="o.check_rev == 'reversed'">
+                        <strong>Credit Note</strong>
+                    </t>
+                    <t t-elif="o.printed_count == 0">
+                        <strong>Tax Invoice</strong>
+                    </t>
+                    <t t-elif="o.printed_count != 0">
+                        <strong>Invoice</strong>
+                    </t>
+                    <t t-if="o.check_rev != 'reversed'">
+                        <t t-if="o.printed_count > 1">
+                            <br/>
+                                    Copy of Invoice
+                            <t t-out="o.printed_count -1"/>
+                        </t>
+                        <t t-else="">
+                        </t>
+                    </t>
+                </div>
+                <div class="receipt-info-line">
+                    <strong>Invoice : </strong>
+                    <span t-out="o.name or ''"/>
+                </div>
+                <div class="receipt-info-line">
+                    <strong>Date: </strong>
+                    <span t-out="o.invoice_date or ''"/>
+                </div>
+                <div class="receipt-info-line">
+                    <strong>Name: </strong>
+                    <span t-out="o.partner_id.name or ''"/>
+                </div>
+                <div class="receipt-info-line">
+                    <strong>PAN: </strong>
+                    <span t-out="o.partner_id.vat or ''"/>
+                </div>
+                <div class="receipt-info-line">
+                    <strong>Address: </strong>
+                    <span t-out="o.partner_id.contact_address_complete or ''"/>
+                </div>
+                <t t-if="o.check_rev == 'reversed'">
+                    <div class="receipt-info-line">
+                        <strong>Reason: </strong>
+                    </div>
+                </t>
+                <div class="receipt-divider"/>
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th style="width:3%; text-align:left;">SN</th>
+                            <th style="width:10%; text-align:center;">HSC</th>
+                            <th style="width:40%; text-align:left;">PARTICULARS</th>
+                            <th style="width:8%; text-align:right;">QTY</th>
+                            <th style="width:12%; text-align:right;">RATE</th>
+                            <th style="width:12%; text-align:right;">DISC</th>
+                            <th style="width:15%; text-align:right;">AMT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="symbol_number" t-value="0"/>
+                        <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.invoice_date, -l.id), reverse=True)"/>
+                        <t t-set="subtotal" t-value="0"/>
+                        <t t-set="amount_discount" t-value="0"/>
+                        <t t-foreach="lines" t-as="line">
+                            <t t-set="price_unit" t-value="round(line.price_unit,2)"/>
+                            <t t-set="amount_line" t-value="round(line.price_unit * line.quantity,2)"/>
+                            <t t-if="line.display_type == 'product'">
+                                <t t-set="price_unit" t-value="round(line.price_unit/1.13,2)"/>
+                                <t t-set="amount_line" t-value="round(price_unit * line.quantity,2)"/>
+                                <t t-set="symbol_number" t-value="symbol_number + 1"/>
+                                <t t-if="line.price_unit >= 0">
+                                    <tr >
+                                        <td style="text-align:left;">
+                                            <t t-out="symbol_number"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-out="line.product_id.hs_code or ''"/>
+                                        </td>
+                                        <td style="text-align:left;">
+                                            <t t-if="line.product_id.barcode">
+                                                <t t-out="line.product_id.barcode"/>
+                                            </t>
+                                            <t t-out="line.product_id.name or ''"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-out="line.quantity"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-if="line.tax_ids">
+                                                <t t-if="line.tax_ids[0].price_include_override == 'tax_excluded'">
+                                                    <t t-esc="line.price_unit" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-esc="round((line.price_unit/1.13),2)" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-esc="line.price_unit" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </t>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-out="round(line.discount_amount/1.13,2)"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span class="text-right" t-options="{'widget':'text'}">
+                                                <t t-if="line.tax_ids">
+                                                    <t t-if="line.tax_ids[0].price_include_override == 'tax_excluded'">
+                                                        <t t-esc="line.price_unit * line.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-esc="round((line.price_unit/1.13),2) * line.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-esc="line.price_unit * line.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                </t>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <t t-set="subtotal" t-value="subtotal + amount_line"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="amount_discount" t-value="amount_discount + abs(amount_line)"/>
+                                </t>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                <div class="receipt-divider"/>
+                <div class="receipt-total-section" style="margin-left:75px;">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">Sub Total :</td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-esc="subtotal" t-options="{'widget': 'float', 'precision': 2}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">Discount :</td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-esc="round(o.amount_discount + amount_discount,2)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">Untaxed Amount: </td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-esc="o.amount_untaxed or '0.00'"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">VAT (13%) :</td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-esc="o.amount_tax"/>
+                            </td>
+                        </tr>
+                        <tr style="font-weight:bold;">
+                            <td style="text-align:right; padding:4px 0;">Grand Total :</td>
+                            <td style="text-align:right; padding:4px 0;">
+                                <t t-esc="o.amount_total"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="receipt-divider" style="margin:4px;"/>
+                            </td>
+                        </tr>
+                        <t t-set="tender" t-value="o.amount_total + (o.pos_order_ids.amount_return or 0.0)"/>
+                        <t t-set="change" t-value="(o.pos_order_ids.amount_return or 0.0)"/>
+
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">Tender :</td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-out="round(tender, 2)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; padding:2px 0;">Change :</td>
+                            <td style="text-align:right; padding:2px 0;">
+                                <t t-out="round(change, 2)"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="receipt-words-section">
+                                In Words:
+                    <t t-out="o.amount_total_words"/>
+                </div>
+                <div class="receipt-footer-info">
+                    <p>Printed By :
+                        <t t-out="o.get_printed_by()"/>
+                    </p>
+                    <p>Printed Time :
+                        <t t-esc="print_date"/>
+                    </p>
+                    <t t-if="o.pos_order_ids">
+                        <p>Ref No :
+                            <t t-esc="o.pos_order_ids[0].pos_reference"/>
+                        </p>
+                    </t>
+                    <t t-else="">
+                        <p>Ref No :
+                        </p>
+                    </t>
+                    <p>Payment Methods :
+                        <t t-if="o.pos_order_ids.payment_ids">
+                            <t t-foreach="o.pos_order_ids.payment_ids" t-as="payment_line">
+                                <t t-out="payment_line.payment_method_id.name"/>
+                            </t>
+                        </t>
+                    </p>
+                    <br/>
+                    <p style="text-align:center; border-bottom: 1px dotted black !important;"></p>
+                    <p style="text-align:center;">
+                        Goods once sold will not be refunded but can be exchanged within 30 days if you come with original invoice except undergarments, mask and cosmetics.
+                    </p>
+                    <br/>
+
+                    <p style="text-align:center; border-bottom: 1px dotted black !important;"></p>
+                    <p style="text-align:center;">Get your favourite exciting offers on this Friday and Saturday !!!</p>
+                    <p style="text-align:center; border-bottom: 1px dotted black !important;"></p>
+                </div>
+            </div>
+        </div>
+        <t t-if="o.state=='posted'">
+            <t t-esc="o.increase_print()" />
+        </t>
+    </template>
+</odoo>
