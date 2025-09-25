@@ -330,7 +330,7 @@ class DashboardController(http.Controller):
                     for target in plan.target_ids:
                         if target.date_from <= date.today() <= target.date_to:
                             case_target += round(target.case_target / target.date_to.day,2)
-                            lines = request.env['distributor.order.line'].sudo().search([('order_id.user_id','=',user.user_id.id), ('order_id.order_date', '=', date.today()), ('order_id.order_date','<=', date.today())])
+                            lines = request.env['distributor.order.line'].sudo().search([('order_id.user_id','=',user.user_id.id), ('order_id.order_date', '=', date.today())])
                             for line in lines:
                                 cases_sold += line.qty
                             store_target += round(target.store_target / target.date_to.day,2)
